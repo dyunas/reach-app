@@ -55,15 +55,60 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
+        'QAvatar',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QAjaxBar',
+        'QBadge',
+        'QTooltip',
+        'QScrollArea',
+        'QSeparator',
+        'QSpace',
+        'QMenu',
+        'QToggle',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QImg',
+        'QForm',
+        'QInput',
+        'QSelect',
+        'QBanner',
+        'QSpinnerBars',
+        'QMarkupTable',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTabs',
+        'QTab',
+        'QTabPanel',
+        'QTabPanels',
+        'QInnerLoading',
+        'QDialog',
+        'QColor',
+        'QPopupProxy',
+        'QDate',
+        'QExpansionItem'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Notify',
+        'Loading',
+        'LocalStorage'
+      ],
+      config: {
+        notify: { /* Notify defaults */ },
+        loading: { /* Loading defaults */ }
+      }
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
