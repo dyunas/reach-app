@@ -39,6 +39,14 @@
               </template>
             </q-input>
           </template>
+          <template v-slot:body-cell-avatar="cellProperties">
+            <q-td>
+              <q-img
+                :src="'http://localhost/reach-php/public/storage/' + cellProperties.value"
+                alt="Avatar"
+              />
+            </q-td>
+          </template>
           <template v-slot:body-cell-action="cellProperties">
             <q-td :props="cellProperties">
               <router-link
@@ -77,6 +85,7 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
+        { name: 'avatar', align: 'center', label: 'Avatar', field: 'avatar', sortable: false },
         { name: 'product_name', align: 'left', label: 'Product Name', field: 'product_name', sortable: true },
         { name: 'product_price', align: 'right', label: 'Price', field: 'product_price', sortable: true },
         { name: 'category', align: 'center', label: 'Category', field: 'category', sortable: true },

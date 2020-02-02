@@ -17,3 +17,39 @@ export const getProducts = context => {
       })
   })
 }
+
+export const getProductCategories = context => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((reject) => {
+    axios.get('/product_categories')
+      .then(response => {
+        context.commit('setCategories', response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const createProduct = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((reject) => {
+    const fd = new FormData()
+    fd.append('avatar', payload.avatar)
+    fd.append('avatar_name', payload.avatar.name)
+    fd.append('productName', payload.productName)
+    fd.append('category', payload.category)
+    fd.append('price', payload.price)
+    fd.append('status', payload.status)
+    fd.append('details', payload.details)
+
+    axios.post('/merchant_products', fd)
+      .then(response => {
+        // context.commit('setProducts', response.data)
+        console.log(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
