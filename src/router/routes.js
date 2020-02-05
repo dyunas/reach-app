@@ -42,6 +42,14 @@ const routes = [
     ],
     meta: { requiresAuth: true }
   },
+  {
+    path: "/user/dashboard",
+    component: () => import("layouts/Master/MasterLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/User/DashboardPage/Index.vue") }
+    ],
+    meta: { requiresAuth: true }
+  }
 ];
 
 // Always leave this as last one

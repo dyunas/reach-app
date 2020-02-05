@@ -160,6 +160,24 @@
               </q-item-section>
             </q-item>
           </div>
+          <div v-if="this.userType === 'customer'">
+            <q-item
+              v-for="link in customerLinks"
+              :key="link.text"
+              clickable
+              class="q-router"
+              v-ripple
+              exact
+              :to="link.path"
+            >
+              <q-item-section avatar>
+                <q-icon :name="link.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ link.text }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
 
           <q-separator />
 
@@ -202,6 +220,12 @@ export default {
         { icon: 'store', text: 'My Products', path: '/merchant/my_products' },
         { icon: 'shopping_cart', text: 'Orders', path: '/merchant/orders' },
         { icon: 'build', text: 'Settings', path: '/merchant/settings' }
+      ],
+      customerLinks: [
+        { icon: 'dashboard', text: 'Dashboard', path: '/user/dashboard' },
+        { icon: 'shopping_cart', text: 'My Cart', path: '/user/my_card' },
+        { icon: 'receipt', text: 'My Orders', path: '/user/orders' },
+        { icon: 'settings', text: 'Account Settings', path: '/user/settings' },
       ],
       buttons2: [
         { text: 'Terms & Conditions' }

@@ -8,6 +8,7 @@ import loginModule from './login-module'
 import merchantDashboardModule from './merchant-module/dashboard'
 import merchantProductsModule from './merchant-module/products'
 import merchantSettingsModule from './merchant-module/settings'
+import userDashboardModule from './user-module/dashboard'
 
 Vue.use(Vuex);
 
@@ -27,7 +28,10 @@ export default function (/* { ssrContext } */) {
       // merchant
       merchantDashboardModule,
       merchantProductsModule,
-      merchantSettingsModule
+      merchantSettingsModule,
+
+      // user
+      userDashboardModule
     },
 
     // enable strict mode (adds overhead!)
@@ -48,6 +52,7 @@ export default function (/* { ssrContext } */) {
         const newMerchantDashboardModule = require('./merchant-module/dashboard').default
         const newMerchantProductsModule = require('./merchant-module/products').default
         const newMerchantSettingsModule = require('./merchant-module/settings').default
+        const newUserDashboardModule = require('./user-module/dashboard').default
 
         Store.hotUpdate({
           modules: {
@@ -56,6 +61,7 @@ export default function (/* { ssrContext } */) {
             merchantDashboardModule: newMerchantDashboardModule,
             merchantProductsModule: newMerchantProductsModule,
             merchantSettingsModule: newMerchantSettingsModule,
+            userDashboardModule: newUserDashboardModule,
           }
         })
       })
