@@ -49,6 +49,14 @@ const routes = [
       { path: "", component: () => import("pages/User/DashboardPage/Index.vue") }
     ],
     meta: { requiresAuth: true }
+  },
+  {
+    path: "/user/merchant/:id",
+    component: () => import("layouts/Master/MasterLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/User/Stores/View.vue") }
+    ],
+    meta: { requiresAuth: true }
   }
 ];
 

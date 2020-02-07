@@ -92,7 +92,9 @@ module.exports = function (ctx) {
         'QPopupProxy',
         'QDate',
         'QExpansionItem',
-        'QRating'
+        'QRating',
+        'QParallax',
+        'QSkeleton'
       ],
 
       directives: [
