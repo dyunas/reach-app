@@ -174,11 +174,16 @@
                 <q-icon :name="link.icon" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{ link.text }}</q-item-label>
+                <q-item-label>
+                  {{ link.text }}
+                  <span
+                    v-if="link.icon === 'shopping_cart' && orderCount > 0"
+                    class="badge badge__primary"
+                  >{{ orderCount }}</span>
+                </q-item-label>
               </q-item-section>
             </q-item>
           </div>
-
           <q-separator />
 
           <div class="q-py-md q-px-md text-grey-9">
@@ -203,6 +208,7 @@
 
 <script>
 import { QSpinnerBars } from 'quasar'
+import { LocalStorage } from 'quasar'
 
 export default {
   data () {
@@ -223,13 +229,13 @@ export default {
       ],
       customerLinks: [
         { icon: 'dashboard', text: 'Dashboard', path: '/user/dashboard' },
-        { icon: 'shopping_cart', text: 'My Cart', path: '/user/my_card' },
+        { icon: 'shopping_cart', text: 'My Cart', path: '/user/my_cart' },
         { icon: 'receipt', text: 'My Orders', path: '/user/orders' },
         { icon: 'settings', text: 'Account Settings', path: '/user/settings' },
       ],
       buttons2: [
         { text: 'Terms & Conditions' }
-      ]
+      ],
     }
   },
 
@@ -240,10 +246,40 @@ export default {
 
     owner () {
       return this.$store.getters['loginModule/getOwner']
+    },
+
+    orderCount () {
+      if (LocalStorage.getItem('type') === 'customer') {
+        return this.$store.getters['userStoresModule/getOrderCount']
+      }
     }
   },
 
+  mounted () {
+    this.checkOwner()
+  },
+
   methods: {
+    checkOwner () {
+      switch (this.userType) {
+        case 'admin':
+          break;
+
+        case 'merchant':
+          break;
+
+        case 'dasher':
+          break;
+
+        case 'customer':
+          //
+          break;
+
+        default:
+          break;
+      }
+    },
+
     logout () {
       const spinner = typeof QSpinnerBars !== 'undefined'
         ? QSpinnerBars // Non-UMD, imported above
@@ -267,6 +303,9 @@ export default {
 </script>
 
 <style lang="sass">
+body 
+  background-color: #fff
+
 .avatar_menu
   width: 150px
 
@@ -311,4 +350,17 @@ export default {
   @media (min-width: 1024px)
     &__page-container
       padding-left: 94px
+
+.badge 
+  padding: 1px 9px 2px
+  font-size: 12.025px
+  font-weight: bold
+  white-space: nowrap
+  color: #ffffff
+  background-color: #999999
+  -webkit-border-radius: 9px
+  -moz-border-radius: 9px
+  border-radius: 9px
+  &__primary
+    background-color: #027BE3
 </style>

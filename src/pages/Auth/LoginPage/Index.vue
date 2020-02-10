@@ -156,6 +156,9 @@ export default {
 </script>
 
 <style lang="sass">
+body 
+  background-color: #E5E057
+
 .my-card
   width: 100%
   min-width: 300px

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export const getToken = state => {
   return state.token
 }
@@ -11,7 +10,7 @@ export const getUserType = state => {
   return state.type
 }
 
-
 export const getOwner = state => {
   return state.owner
 }
+

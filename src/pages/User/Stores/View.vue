@@ -4,17 +4,6 @@
       <q-img src="https://jb-ph-cdn.tillster.com/demo/Carousel/Yumburger_MOBILE-BANNER_opt_750x398.jpg_8ec5b093-8e6b-41ed-b2d7-644f08131ef0.jpg">
         <div class="absolute-bottom">
           <div class="text-h6 text-center">Jollibee</div>
-          <div class="text-center">
-            <q-rating
-              v-model="stars"
-              :max="5"
-              size="20px"
-              icon="star_border"
-              icon-selected="star"
-              icon-half="star_half"
-              readonly
-            />
-          </div>
         </div>
       </q-img>
 
@@ -96,22 +85,22 @@
         <div class="row items-start q-gutter-md">
           <q-card
             class="my-card"
-            v-for="product in products"
+            v-for="(product, index) in products"
             v-bind:key="product.id"
           >
-            <q-img :src="'http://localhost/reach-php/public/storage/' + product.avatar" />
+            <q-img
+              :src="'http://localhost/reach-php/public/storage/' + product.avatar"
+              :ratio="4/3"
+            />
 
             <q-card-section>
               <div class="row no-wrap items-center">
                 <div class="col text-h6 ellipsis">
                   {{ product.product_name }}
                 </div>
-              </div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-subtitle1">
-                {{ 'Php ' + product.product_price + ' ・ '+ product.description }}
+                <div class="text-subtitle1">
+                  <strong>{{ 'Php ' + product.product_price }}</strong>
+                </div>
               </div>
             </q-card-section>
 
@@ -122,6 +111,7 @@
                 flat
                 color="primary"
                 icon="shopping_cart"
+                @click="addToCart(index)"
               >
                 Add to cart
               </q-btn>
@@ -134,21 +124,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {
-      isDesktop: true,
-      'stars': 4.5,
+      'isDesktop': true,
       'loadingState': false,
       'afterLoad': false,
       'noProducts': false,
       'tab': '',
       'categories': [],
-      'products': []
+      'products': [],
     }
   },
 
-  mounted () {
+  created () {
     this.checkPlatform()
     this.getStoreCategories()
   },
@@ -160,6 +151,37 @@ export default {
       } else {
         this.isDesktop = false
       }
+    },
+
+    addToCart (product) {
+      let item = {
+        'id': this.products[product].id,
+        'avatar': this.products[product].avatar,
+        'name': this.products[product].product_name,
+        'price': parseFloat(this.products[product].product_price),
+        'qty': 1
+      }
+
+      this.$store.dispatch('userStoresModule/addToCart', item)
+        .then(response => {
+          this.$q.notify({
+            color: 'green-9',
+            textColor: 'white',
+            icon: 'fas fa-check-circle',
+            message: 'Added to cart',
+            position: 'top',
+            timeout: 3000,
+            multiLine: true,
+            actions: [
+              { label: 'View Cart', color: 'white', handler: () => { this.$router.push({ path: '/user/my_cart' }) } },
+              { label: 'Dismiss', color: 'white', handler: () => { /* console.log('wooow') */ } }
+            ]
+          })
+        })
+    },
+
+    removeFromCart () {
+      //
     },
 
     getStoreCategories () {

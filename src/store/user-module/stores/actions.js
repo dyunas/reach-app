@@ -28,3 +28,9 @@ export const getStoreProductsByCategory = (context, payload) => {
       })
   })
 }
+
+export const addToCart = (context, payload) => {
+  context.commit('setCart', payload)
+
+  return true
+}

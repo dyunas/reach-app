@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NearbyStores from 'components/User/NearbyStores.vue'
+import NearbyStores from 'components/User/NearbyStores'
 
 export default {
   components: {
@@ -21,7 +21,7 @@ export default {
     }
   },
 
-  mounted () {
+  created () {
     this.checkPlatform()
   },
 
