@@ -43,18 +43,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: "/user/dashboard",
+    path: "/user/",
     component: () => import("layouts/Master/MasterLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/User/DashboardPage/Index.vue") }
-    ],
-    meta: { requiresAuth: true }
-  },
-  {
-    path: "/user/merchant/:id",
-    component: () => import("layouts/Master/MasterLayout.vue"),
-    children: [
-      { path: "", component: () => import("pages/User/Stores/View.vue") }
+      { path: "dashboard", component: () => import("pages/User/DashboardPage/Index.vue") },
+      { path: "merchant/:id", component: () => import("pages/User/Stores/View.vue") },
+      { path: "my_cart", component: () => import("pages/User/Cart/View.vue") }
     ],
     meta: { requiresAuth: true }
   }

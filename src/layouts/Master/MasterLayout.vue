@@ -231,7 +231,7 @@ export default {
         { icon: 'dashboard', text: 'Dashboard', path: '/user/dashboard' },
         { icon: 'shopping_cart', text: 'My Cart', path: '/user/my_cart' },
         { icon: 'receipt', text: 'My Orders', path: '/user/orders' },
-        { icon: 'settings', text: 'Account Settings', path: '/user/settings' },
+        { icon: 'settings', text: 'Account Settings', path: '/user/settings' }
       ],
       buttons2: [
         { text: 'Terms & Conditions' }
