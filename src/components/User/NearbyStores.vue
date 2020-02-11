@@ -1,36 +1,6 @@
 <template>
   <q-page padding>
-    <div
-      class="q-pa-md"
-      v-if="loadingState"
-    >
-      <q-card class="my-card">
-        <q-skeleton
-          height="150px"
-          square
-        />
-
-        <q-card-section>
-          <q-skeleton
-            type="text"
-            class="text-subtitle1"
-          />
-          <q-skeleton
-            type="text"
-            width="50%"
-            class="text-subtitle1"
-          />
-          <q-skeleton
-            type="text"
-            class="text-caption"
-          />
-        </q-card-section>
-      </q-card>
-    </div>
-    <div
-      v-if="storeState"
-      class="q-pa-md row items-start q-gutter-md"
-    >
+    <div class="q-pa-md row items-start q-gutter-md">
       <q-card
         class="my-card"
         v-for="store in nearbyStores"
@@ -87,9 +57,7 @@
 export default {
   data () {
     return {
-      watchID: '',
-      loadingState: false,
-      storeState: false
+      //
     }
   },
 
@@ -99,52 +67,8 @@ export default {
     }
   },
 
-  created () {
-    this.loadingState = true
-
-    this.getCurrentLocation()
-  },
-
-  destroy () {
-    navigator.geolocation.clearWatch(watchID)
-  },
-
   methods: {
-    getCurrentLocation () {
-      this.watchID = navigator.geolocation.watchPosition(
-        this.onLocationSuccess,
-        this.onLocationError,
-        {
-          enableHighAccuracy: true
-        }
-      )
-    },
-
-    onLocationSuccess (position) {
-      var lat = position.coords.latitude.toFixed(7)
-      var long = position.coords.longitude.toFixed(7)
-
-      this.getNearbyStores(lat, long)
-    },
-
-    onLocationError (error) {
-      alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
-    },
-
-    getNearbyStores (lat, long) {
-      this.$store.dispatch('userDashboardModule/getNearbyStores', {
-        'lat': lat,
-        'long': long
-      })
-        .then(response => {
-          this.loadingState = false
-          this.storeState = true
-        })
-        .catch(error => {
-          this.loadingState = true
-          alert(error.data)
-        })
-    }
+    //
   }
 }
 </script>

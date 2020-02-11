@@ -87,15 +87,17 @@ export const removeItemFromCart = (context, payload) => {
   context.commit('setCartCount', cartCount)
 }
 
-export const getCurrentLocation = (context, payload) => {
-  // axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+export const getCurrentLocation = () => {
+  const lat = LocalStorage.getItem('lat')
+  const long = LocalStorage.getItem('long')
+
   return new Promise((resolve, reject) => {
-    axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + payload.lat + ',' + payload.long + '&key=AIzaSyDjf9uspNjkPTPhhAlNsn-vmsYXMn0oa3E')
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=AIzaSyDjf9uspNjkPTPhhAlNsn-vmsYXMn0oa3E')
       .then(response => {
         resolve(response)
       })
       .catch(error => {
-        reject(error.data)
+        reject(error)
       })
   })
 }

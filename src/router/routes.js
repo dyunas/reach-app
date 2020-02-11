@@ -48,7 +48,8 @@ const routes = [
     children: [
       { path: "dashboard", component: () => import("pages/User/DashboardPage/Index.vue") },
       { path: "merchant/:id", component: () => import("pages/User/Stores/View.vue") },
-      { path: "my_cart", component: () => import("pages/User/Cart/View.vue") }
+      { path: "my_cart", component: () => import("pages/User/Cart/View.vue") },
+      { path: "my_cart/checkout", component: () => import("pages/User/Cart/CheckOut.vue") }
     ],
     meta: { requiresAuth: true }
   }

@@ -49,7 +49,7 @@
             :value="item.qty"
             type="number"
             dense
-            style="max-width: 20px"
+            style="max-width: 45px"
             :rules="[ checkQty ]"
           />
         </q-item-section>
@@ -74,46 +74,6 @@
           </div>
         </q-item-section>
       </q-item>
-      <q-separator spaced />
-      <q-item>
-        <q-item-section>
-          <q-item-label class="text-weight-bold text-uppercase">
-            Subtotal:
-          </q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-item-label class="text-grey-8 text-uppercase">
-            {{ 'Php ' + getSubTotal() }}
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-item-label class="text-weight-bold text-uppercase">
-            Delivery Fee:
-          </q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-item-label class="text-grey-8 text-uppercase">
-            {{ 'Php ' + parseFloat(deliveryFee).toFixed(2) }}
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-item-label class="text-weight-bold text-uppercase">
-            Total:
-          </q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-item-label class="text-grey-8 text-uppercase">
-            {{ 'Php ' + getGrandTotal() }}
-          </q-item-label>
-        </q-item-section>
-      </q-item>
     </q-list>
     <div class="row justify-end">
       <q-btn
@@ -125,36 +85,6 @@
         icon="refresh"
         @click="updateCart()"
       />
-    </div>
-    <q-card class="my-card q-mt-md">
-      <q-card-section>
-        <div class="text-subtitle2">Special instructions:</div>
-        <q-input
-          v-model="instructions"
-          dense
-          filled
-          type="textarea"
-        />
-      </q-card-section>
-    </q-card>
-    <q-card class="my-card q-mt-md">
-      <q-card-section>
-        <div class="text-subtitle2">Mode of payment:</div>
-        <q-radio
-          v-model="paymentMode"
-          val="COD"
-          label="Cash on Delivery"
-        />
-      </q-card-section>
-    </q-card>
-    <q-card class="my-card q-mt-md">
-      <q-card-section>
-        <div class="text-subtitle2">
-          Deliver to: {{ this.location }}
-        </div>
-      </q-card-section>
-    </q-card>
-    <div class="row justify-end">
       <q-btn
         type="button"
         label="Checkout"
@@ -162,6 +92,7 @@
         color="white"
         text-color="black"
         icon="fas fa-shopping-bag"
+        :to="{ path: '/user/my_cart/checkout' }"
       />
     </div>
   </q-page>
@@ -173,22 +104,12 @@ export default {
     cart: {
       type: Array,
       required: true
-    },
-
-    location: {
-      type: String,
-      required: true
     }
   },
 
   data () {
     return {
       content: [],
-      deliveryFee: 35,
-      subTotal: 0,
-      total: 0,
-      instructions: '',
-      paymentMode: 'COD',
     }
   },
 
@@ -215,19 +136,6 @@ export default {
 
     qtyTotal (price, qty) {
       return (parseFloat(price) * parseInt(qty)).toFixed(2)
-    },
-
-    getSubTotal () {
-      let initialValue = 0
-      let subTotal = this.content.reduce((total, cart) => total + (cart.price * cart.qty), initialValue)
-
-      this.subTotal = parseFloat(subTotal).toFixed(2)
-      return this.subTotal
-    },
-
-    getGrandTotal () {
-      this.total = (parseFloat(this.subTotal) + parseFloat(this.deliveryFee)).toFixed(2)
-      return this.total
     },
 
     updateCart () {

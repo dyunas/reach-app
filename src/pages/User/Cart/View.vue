@@ -5,7 +5,6 @@
     <my-cart
       v-if="this.myCart.length > 0"
       :cart="this.myCart"
-      :location="this.currentLocation"
     />
     <q-card v-else>
       <q-card-section>
@@ -25,7 +24,7 @@ export default {
 
   data () {
     return {
-      currentLocation: ''
+      //
     }
   },
 
@@ -38,42 +37,6 @@ export default {
   watch: {
     myCart () {
       return this.$store.getters['userStoresModule/getCartContents']
-    }
-  },
-
-  created () {
-    this.getCurrentLocation()
-  },
-
-  methods: {
-    getCurrentLocation () {
-      this.watchID = navigator.geolocation.getCurrentPosition(
-        this.onLocationSuccess,
-        this.onLocationError,
-        {
-          enableHighAccuracy: true
-        }
-      )
-    },
-
-    onLocationSuccess (position) {
-      var lat = position.coords.latitude
-      var long = position.coords.longitude
-
-      this.$store.dispatch('userStoresModule/getCurrentLocation', {
-        lat: lat,
-        long: long
-      })
-        .then(response => {
-          this.currentLocation = response.data.results[0].formatted_address
-        })
-        .catch(error => {
-          console.log(error.data)
-        })
-    },
-
-    onLocationError (error) {
-      alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
     }
   }
 }

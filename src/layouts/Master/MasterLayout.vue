@@ -304,7 +304,7 @@ export default {
 
 <style lang="sass">
 body 
-  background-color: #fff
+  background-color: #ffffff
 
 .avatar_menu
   width: 150px

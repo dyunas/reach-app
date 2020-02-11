@@ -1,3 +1,6 @@
+/* import LocalStorage plugin for storing data in browser localstorage */
+import { LocalStorage } from 'quasar'
+
 /* import axios */
 import axios from 'axios'
 
@@ -15,4 +18,9 @@ export const getNearbyStores = (context, payload) => {
         reject(error.data)
       })
   })
+}
+
+export const setCurrentLocation = (context, payload) => {
+  LocalStorage.set('lat', payload.lat)
+  LocalStorage.set('long', payload.long)
 }
