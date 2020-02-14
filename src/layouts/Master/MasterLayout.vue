@@ -184,6 +184,26 @@
               </q-item-section>
             </q-item>
           </div>
+          <div v-if="this.userType === 'dasher'">
+            <q-item
+              v-for="link in dasherLinks"
+              :key="link.text"
+              clickable
+              class="q-router"
+              v-ripple
+              exact
+              :to="link.path"
+            >
+              <q-item-section avatar>
+                <q-icon :name="link.icon" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>
+                  {{ link.text }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </div>
           <q-separator />
 
           <div class="q-py-md q-px-md text-grey-9">
@@ -233,9 +253,16 @@ export default {
         { icon: 'receipt', text: 'My Orders', path: '/user/orders' },
         { icon: 'settings', text: 'Account Settings', path: '/user/settings' }
       ],
+      dasherLinks: [
+        { icon: 'dashboard', text: 'Dashboard', path: '/dasher/dashboard' },
+        { icon: 'motorcycle', text: 'Deliveries', path: '/dasher/deliveries' },
+        { icon: 'settings', text: 'Account Settings', path: '/dasher/settings' }
+      ],
       buttons2: [
         { text: 'Terms & Conditions' }
       ],
+      watchID: '',
+      intervalID: '',
     }
   },
 
@@ -255,7 +282,7 @@ export default {
     }
   },
 
-  mounted () {
+  created () {
     this.checkOwner()
   },
 
@@ -303,9 +330,6 @@ export default {
 </script>
 
 <style lang="sass">
-body 
-  background-color: #ffffff
-
 .avatar_menu
   width: 150px
 

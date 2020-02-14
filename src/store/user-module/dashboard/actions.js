@@ -4,10 +4,11 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.163.190.7/api'
 
 export const getNearbyStores = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+
   return new Promise((resolve, reject) => {
     axios.get('/stores?custLat=' + payload.lat + '&custLong=' + payload.long)
       .then(response => {
@@ -18,9 +19,4 @@ export const getNearbyStores = (context, payload) => {
         reject(error.data)
       })
   })
-}
-
-export const setCurrentLocation = (context, payload) => {
-  LocalStorage.set('lat', payload.lat)
-  LocalStorage.set('long', payload.long)
 }

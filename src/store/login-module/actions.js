@@ -3,7 +3,7 @@ import axios from 'axios'
 /* import LocalStorage plugin for storing data in browser localstorage */
 import { LocalStorage } from 'quasar'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.163.190.7/reach-php/public/api'
 
 export const login = (context, payload) => {
   return new Promise((resolve, reject) => {
@@ -20,10 +20,12 @@ export const login = (context, payload) => {
         const token = 'Bearer ' + response.data.token
         const type = response.data.account_type
         const owner = response.data.owner
+        const ownerID = response.data.owner_id
 
         LocalStorage.set('token', token)
         LocalStorage.set('type', type)
         LocalStorage.set('owner', owner)
+        LocalStorage.set('ownerID', ownerID)
 
         context.commit('setCredentials', {
           'token': token,
@@ -52,6 +54,7 @@ export const logout = (context) => {
           LocalStorage.remove('cartCount')
           LocalStorage.remove('lat')
           LocalStorage.remove('long')
+          LocalStorage.remove('merchantID')
           context.commit('destroyToken')
           resolve(response.result)
         })
@@ -63,9 +66,33 @@ export const logout = (context) => {
           LocalStorage.remove('cartCount')
           LocalStorage.remove('lat')
           LocalStorage.remove('long')
+          LocalStorage.remove('merchantID')
           context.commit('destroyToken')
           reject(error)
         })
     }
   })
+}
+
+export const setCurrentLocation = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  if (LocalStorage.getItem('type') === 'dasher') {
+    // console.log(payload)
+    return new Promise((resolve, reject) => {
+      axios.post("/dasher_status", {
+        lat: payload.lat,
+        long: payload.long
+      })
+        .then(response => {
+          LocalStorage.set('lat', payload.lat)
+          LocalStorage.set('long', payload.long)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  } else {
+    LocalStorage.set('lat', payload.lat)
+    LocalStorage.set('long', payload.long)
+  }
 }

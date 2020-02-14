@@ -120,6 +120,26 @@
         </div>
       </q-card-section>
     </q-card>
+    <div class="row justify-end">
+      <q-btn
+        type="button"
+        label="Back"
+        class="q-mt-md q-mr-md"
+        color="warning"
+        text-color="white"
+        icon="arrow_back"
+        :to="{ path: '/user/my_cart' }"
+      />
+      <q-btn
+        type="button"
+        label="Place Order"
+        class="q-mt-md"
+        color="white"
+        text-color="black"
+        icon="done"
+        @click="submitForm()"
+      />
+    </div>
   </q-page>
 </template>
 
@@ -175,6 +195,17 @@ export default {
       this.total = (parseFloat(this.subTotal) + parseFloat(this.deliveryFee)).toFixed(2)
       return this.total
     },
+
+    submitForm () {
+      this.$emit('checkOutNow', {
+        cart: this.content,
+        instruction: this.instructions,
+        location: this.location,
+        subTotal: this.subTotal,
+        total: this.total,
+        paymentMode: this.paymentMode
+      })
+    }
   }
 }
 </script>

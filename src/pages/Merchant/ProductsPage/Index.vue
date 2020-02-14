@@ -42,7 +42,7 @@
           <template v-slot:body-cell-avatar="cellProperties">
             <q-td>
               <q-img
-                :src="'http://localhost/reach-php/public/storage/' + cellProperties.value"
+                :src="'http://18.163.190.7/storage/' + cellProperties.value"
                 alt="Avatar"
               />
             </q-td>

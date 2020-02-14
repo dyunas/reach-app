@@ -89,7 +89,7 @@
             v-bind:key="product.id"
           >
             <q-img
-              :src="'http://localhost/reach-php/public/storage/' + product.avatar"
+              :src="'http://18.163.190.7/storage/' + product.avatar"
               :ratio="4/3"
             />
 
@@ -144,6 +144,12 @@ export default {
     this.getStoreCategories()
   },
 
+  computed: {
+    isThereMerchant () {
+      return this.$store.getters['userStoresModule/isThereMerchant']
+    }
+  },
+
   methods: {
     checkPlatform () {
       if (this.$q.platform.desktop) {
@@ -154,6 +160,7 @@ export default {
     },
 
     addToCart (product) {
+      const merchantId = this.$route.params.id
       let item = {
         'id': this.products[product].id,
         'avatar': this.products[product].avatar,
@@ -162,22 +169,33 @@ export default {
         'qty': 1
       }
 
-      this.$store.dispatch('userStoresModule/addToCart', item)
-        .then(response => {
-          this.$q.notify({
-            color: 'green-9',
-            textColor: 'white',
-            icon: 'fas fa-check-circle',
-            message: 'Added to cart',
-            position: 'top',
-            timeout: 3000,
-            multiLine: true,
-            actions: [
-              { label: 'View Cart', color: 'white', handler: () => { this.$router.push({ path: '/user/my_cart' }) } },
-              { label: 'Dismiss', color: 'white', handler: () => { /* console.log('wooow') */ } }
-            ]
-          })
+      if (this.isThereMerchant !== '' && this.isThereMerchant !== this.$route.params.id) {
+        this.$q.notify({
+          color: 'red-9',
+          textColor: 'white',
+          icon: 'far fa-times-circle',
+          message: 'Strictly 1 merchant per order',
+          position: 'top',
+          timeout: 3000,
         })
+      } else {
+        this.$store.dispatch('userStoresModule/addToCart', { item, merchantId })
+          .then(response => {
+            this.$q.notify({
+              color: 'green-9',
+              textColor: 'white',
+              icon: 'fas fa-check-circle',
+              message: 'Added to cart',
+              position: 'top',
+              timeout: 3000,
+              multiLine: true,
+              actions: [
+                { label: 'View Cart', color: 'white', handler: () => { this.$router.push({ path: '/user/my_cart' }) } },
+                { label: 'Dismiss', color: 'white', handler: () => { /* console.log('wooow') */ } }
+              ]
+            })
+          })
+      }
     },
 
     removeFromCart () {
@@ -227,6 +245,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+body
+  background-color: #FFFFFF
+
 .tab-width-mobile
   max-width: 320px
 

@@ -78,11 +78,7 @@ export default {
       var lat = position.coords.latitude.toFixed(7)
       var long = position.coords.longitude.toFixed(7)
 
-      this.$store.dispatch('userDashboardModule/setCurrentLocation', {
-        lat: lat,
-        long: long
-      })
-
+      this.setCurrentLocation(lat, long)
       this.getNearbyStores(lat, long)
     },
 
@@ -90,11 +86,19 @@ export default {
       alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
     },
 
+    setCurrentLocation (lat, long) {
+      this.$store.dispatch('loginModule/setCurrentLocation', {
+        lat: lat,
+        long: long
+      })
+    },
+
     getNearbyStores (lat, long) {
       this.loadingState = true
+
       this.$store.dispatch('userDashboardModule/getNearbyStores', {
-        'lat': lat,
-        'long': long
+        lat: lat,
+        long: long
       })
         .then(response => {
           this.loadingState = false
@@ -106,12 +110,12 @@ export default {
         })
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
 body 
-  background-color: #ffffff
+  background-color: #FFFFFF
 
 .pageHeader
   margin: 15px 0px 5px 15px
