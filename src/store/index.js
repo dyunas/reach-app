@@ -9,6 +9,8 @@ import merchantDashboardModule from './merchant-module/dashboard'
 import merchantProductsModule from './merchant-module/products'
 import merchantSettingsModule from './merchant-module/settings'
 
+import dasherDeliveryModule from './dasher-module/deliveries'
+
 import userDashboardModule from './user-module/dashboard'
 import userStoresModule from './user-module/stores'
 
@@ -31,6 +33,9 @@ export default function (/* { ssrContext } */) {
       merchantDashboardModule,
       merchantProductsModule,
       merchantSettingsModule,
+
+      // dasher
+      dasherDeliveryModule,
 
       // user
       userDashboardModule,
@@ -55,6 +60,7 @@ export default function (/* { ssrContext } */) {
         const newMerchantDashboardModule = require('./merchant-module/dashboard').default
         const newMerchantProductsModule = require('./merchant-module/products').default
         const newMerchantSettingsModule = require('./merchant-module/settings').default
+        const newDasherDeliveryModule = require('./dasher-module/deliveries').default
         const newUserDashboardModule = require('./user-module/dashboard').default
         const newUserStoresModule = require('./user-module/stores').default
 
@@ -65,6 +71,7 @@ export default function (/* { ssrContext } */) {
             merchantDashboardModule: newMerchantDashboardModule,
             merchantProductsModule: newMerchantProductsModule,
             merchantSettingsModule: newMerchantSettingsModule,
+            dasherDeliveryModule: newDasherDeliveryModule,
             userDashboardModule: newUserDashboardModule,
             userStoresModule: newUserStoresModule,
           }

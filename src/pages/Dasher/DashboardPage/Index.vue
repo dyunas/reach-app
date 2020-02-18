@@ -13,7 +13,7 @@
         >
           <div
             class="text-center q-pa-md"
-            v-show="showSimulatedReturnData"
+            v-show="showReturnData"
           >
             <q-spinner-comment
               color="yellow"
@@ -46,8 +46,9 @@ export default {
     return {
       header: 'Standing by...',
       visible: true,
-      showSimulatedReturnData: false,
+      showReturnData: false,
       rider_id: LocalStorage.getItem('ownerID'),
+      intervalID: '',
       message: '',
       path: ''
     }
@@ -57,30 +58,35 @@ export default {
     clearInterval(this.intervalID)
   },
 
-  destroy () {
-    navigator.geolocation.clearWatch(this.watchID)
-  },
-
   created () {
-    this.getCurrentLocation()
+    this.checkPendingDelivery()
   },
 
   mounted () {
     this.$echo.channel('order-tracker-' + this.rider_id)
       .listen('PlacedOrder', (notify) => {
-        // console.log(notify)
         this.orderUp(notify)
+        clearInterval(this.intervalID)
       })
   },
 
   methods: {
-    showTextLoading () {
-      this.visible = true
-      this.showSimulatedReturnData = false
-      setTimeout(() => {
-        this.visible = false
-        this.showSimulatedReturnData = true
-      }, 3000)
+    checkPendingDelivery () {
+      this.$store.dispatch('dasherDeliveryModule/checkPendingDelivery')
+        .then(response => {
+          if (response.data !== 'false') {
+            this.visible = false
+            this.showReturnData = true
+            this.header = 'Order up!'
+            this.message = 'You still have pending delivery!'
+            this.path = '/dasher/deliveries/' + response.data[0].id
+          } else {
+            this.getCurrentLocation()
+          }
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     },
 
     getCurrentLocation () {
@@ -111,7 +117,7 @@ export default {
 
     orderUp (notify) {
       this.visible = false
-      this.showSimulatedReturnData = true
+      this.showReturnData = true
       this.header = 'Order up!'
       this.message = notify.notify.message
       this.path = notify.notify.path

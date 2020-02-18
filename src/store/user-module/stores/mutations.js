@@ -9,3 +9,9 @@ export const setCartCount = (state, count) => {
 export const setMerchantID = (state, merchantID) => {
   state.merchantID = merchantID
 }
+
+export const undoCart = state => {
+  state.cart = [],
+    state.cartCount = 0,
+    state.merchantID = ''
+}

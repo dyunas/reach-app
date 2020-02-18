@@ -4,7 +4,7 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://18.163.190.7/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
 export const getStoreCategories = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
@@ -123,7 +123,7 @@ export const getCurrentLocation = () => {
   })
 }
 
-export const placeOrder = (context, payload) => {
+export const placeOrder = async (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   let lat = ''
   let long = ''
@@ -132,32 +132,35 @@ export const placeOrder = (context, payload) => {
   const customerID = LocalStorage.getItem('ownerID')
   const merchantID = LocalStorage.getItem('merchantID')
 
-  getMerchantLatLong(context.rootState.loginModule.token)
-    .then(response => {
-      lat = response.data[0].latitude
-      long = response.data[0].longitude
+  let merchLatLong = await getMerchantLatLong(context.rootState.loginModule.token)
 
-      return new Promise((resolve, reject) => {
-        axios.post('/customer_orders', {
-          cart: payload.cart,
-          instruction: payload.instruction,
-          location: payload.location,
-          custLat: custLat,
-          custLong: custLong,
-          customerID: customerID,
-          merchantID: merchantID,
-          merchLat: lat,
-          merchLong: long,
-          subTotal: payload.subTotal,
-          total: payload.total,
-          paymentMode: payload.paymentMode
-        })
-          .then(response => {
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
+  // console.log(merchLatLong)
+  return new Promise((resolve, reject) => {
+    axios.post('/customer_orders', {
+      cart: payload.cart,
+      instruction: payload.instruction,
+      location: payload.location,
+      custLat: custLat,
+      custLong: custLong,
+      customerID: customerID,
+      merchantID: merchantID,
+      merchLat: merchLatLong.data[0].latitude,
+      merchLong: merchLatLong.data[0].longitude,
+      subTotal: payload.subTotal,
+      total: payload.total,
+      paymentMode: payload.paymentMode
     })
+      .then(result => {
+        LocalStorage.remove('cart')
+        LocalStorage.remove('cartCount')
+        LocalStorage.remove('merchantID')
+
+        context.commit('undoCart')
+
+        resolve(result.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
