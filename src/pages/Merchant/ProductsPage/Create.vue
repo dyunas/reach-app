@@ -56,7 +56,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" scoped>  
 .pageHeader
   margin: 15px 0px 5px 15px
 </style>

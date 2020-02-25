@@ -3,11 +3,14 @@
   <q-page>
     <h4 class="pageHeader">Dashboard</h4>
 
-    <div class="q-pa-md row items-start q-gutter-md">
+    <div
+      class="q-pa-md row items-start q-gutter-y-md"
+      :class="{ 'q-gutter-x-md' : $q.platform.is.desktop }"
+    >
       <q-card
         flat
         bordered
-        class="my-card"
+        class="my-card col-md-3 col-sm-3 col-xs-12"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Daily Revenue</div>
@@ -30,7 +33,7 @@
       <q-card
         flat
         bordered
-        class="my-card"
+        class="my-card col-md-3 col-sm-3 col-xs-12"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Weekly Revenue</div>
@@ -53,7 +56,7 @@
       <q-card
         flat
         bordered
-        class="my-card"
+        class="my-card col-md-3 col-sm-3 col-xs-12"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Monthly Revenue</div>
@@ -81,33 +84,13 @@
 export default {
   data () {
     return {
-      isDesktop: true
-    };
-  },
-
-  created () {
-    this.checkPlatform()
-  },
-
-  methods: {
-    checkPlatform () {
-      if (this.$q.platform.desktop) {
-        this.isDesktop = true
-      } else {
-        this.isDesktop = false
-      }
+      //
     }
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
-body
-  background-color: #FFFFFF
-
 .pageHeader
   margin: 15px 0px 5px 15px
-
-.my-card 
-  width: 300px
 </style>

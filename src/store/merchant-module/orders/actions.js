@@ -1,13 +1,14 @@
+/* import axios */
+import axios from 'axios'
 /* import LocalStorage plugin for storing data in browser localstorage */
 import { LocalStorage } from 'quasar'
 
-/* import axios */
-import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
-export const checkPendingDelivery = context => {
+export const getOrderList = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
-    axios.get('/checkPendingDelivery')
+    axios.get('/orders')
       .then(response => {
         resolve(response)
       })
@@ -17,10 +18,19 @@ export const checkPendingDelivery = context => {
   })
 }
 
-export const getDeliveryList = context => {
+export const orderOpened = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise(() => {
+    axios.post('/orders/order_opened', {
+      id: payload.id
+    })
+  })
+}
+
+export const getOrderStatus = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
-    axios.get('/deliveries')
+    axios.get('/order_status')
       .then(response => {
         resolve(response)
       })
@@ -33,7 +43,7 @@ export const getDeliveryList = context => {
 export const getOrderDetails = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
-    axios.get('/deliveries/' + payload.id)
+    axios.get('/orders/' + payload.id)
       .then(response => {
         resolve(response)
       })
@@ -43,9 +53,15 @@ export const getOrderDetails = (context, payload) => {
   })
 }
 
-export const getMapDirectionsToMerchant = (context, payload) => {
+export const updateOrderStatus = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
-    axios.get("https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=" + payload.riderLat + "," + payload.riderLong + "&destination=" + payload.merchLat + "," + payload.merchLong + "&key=AIzaSyDjf9uspNjkPTPhhAlNsn-vmsYXMn0oa3E")
+    axios.post('/orders/' + payload.id, {
+      data: {
+        status: payload.status
+      },
+      _method: 'PATCH'
+    })
       .then(response => {
         resolve(response)
       })

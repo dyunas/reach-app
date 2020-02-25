@@ -113,6 +113,7 @@ export default {
       avatar: null,
       productName: null,
       category: null,
+      newCategory: null,
       price: null,
       details: null,
       status: '',

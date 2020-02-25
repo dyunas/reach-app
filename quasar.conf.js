@@ -8,7 +8,8 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       'axios',
-      'laravel-echo'
+      'laravel-echo',
+      'timeago'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -81,6 +82,7 @@ module.exports = function (ctx) {
         'QSpinnerGears',
         'QSpinnerHourglass',
         'QSpinnerComment',
+        'QSpinnerPuff',
         'QMarkupTable',
         'QTable',
         'QTh',
@@ -99,7 +101,8 @@ module.exports = function (ctx) {
         'QRating',
         'QParallax',
         'QSkeleton',
-        'QRadio'
+        'QRadio',
+        'QBar'
       ],
 
       directives: [

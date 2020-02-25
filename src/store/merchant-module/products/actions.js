@@ -31,6 +31,22 @@ export const getProductCategories = context => {
   })
 }
 
+export const addCategory = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.post('/product_categories', {
+      category: payload.category
+    })
+      .then(response => {
+        context.commit('updateCategory', response.data)
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
 export const createProduct = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((reject) => {

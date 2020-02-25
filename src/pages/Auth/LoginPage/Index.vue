@@ -5,7 +5,7 @@
   >
     <div class="row">
       <img
-        alt="Quasar logo"
+        alt="Reach logo"
         src="~assets/reach-logo-low.png"
       />
     </div>
@@ -155,10 +155,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
-body 
-  background-color: #E5E057
-
+<style lang="sass" scoped>
 .my-card
   width: 100%
   min-width: 300px

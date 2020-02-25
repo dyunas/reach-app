@@ -245,9 +245,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-body
-  background-color: #FFFFFF
-
 .tab-width-mobile
   max-width: 320px
 

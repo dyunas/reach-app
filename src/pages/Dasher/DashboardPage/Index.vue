@@ -63,7 +63,7 @@ export default {
   },
 
   mounted () {
-    this.$echo.channel('order-tracker-' + this.rider_id)
+    this.$echo.channel('rider-tracker-' + this.rider_id)
       .listen('PlacedOrder', (notify) => {
         this.orderUp(notify)
         clearInterval(this.intervalID)
@@ -127,9 +127,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-body
-  background-color: #FFFFFF
-
 .my-card
   min-width: 320px
   height: 450px

@@ -1,5 +1,5 @@
 <template>
-  <q-layout>
+  <q-layout :style="bgStyle">
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -7,5 +7,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      bgStyle: {
+        backgroundColor: "#E5E057"
+      }
+    }
+  }
+}
 </script>
+

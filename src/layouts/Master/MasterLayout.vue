@@ -1,5 +1,8 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout
+    view="hHh lpR fFf"
+    :style="bgStyle"
+  >
     <q-header
       elevated
       class="bg-white text-grey-8"
@@ -25,7 +28,10 @@
           class="row items-center no-wrap"
         >
           <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg" />
-          <!-- <img alt="REACH Logo" src="~assets/reach-logo-low.png" /> -->
+          <!-- <img
+            alt="REACH Logo"
+            src="~assets/reach-logo-low.png"
+          /> -->
         </q-toolbar-title>
 
         <q-space />
@@ -37,6 +43,7 @@
             flat
             color="grey-8"
             icon="notifications"
+            v-if="this.userType !== 'dasher'"
           >
             <q-badge
               color="red"
@@ -52,18 +59,6 @@
                 <q-item clickable>
                   <q-item-section>
                     Having fun
-                    <span class="text-caption text-weight-light">Nov. 29, 2019 - 02:38 PM</span>
-                  </q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>
-                    Having fun
-                    <span class="text-caption text-weight-light">Nov. 29, 2019 - 02:38 PM</span>
-                  </q-item-section>
-                </q-item>
-                <q-item clickable>
-                  <q-item-section>
-                    Mind blown
                     <span class="text-caption text-weight-light">Nov. 29, 2019 - 02:38 PM</span>
                   </q-item-section>
                 </q-item>
@@ -114,10 +109,14 @@
           class="GPL__toolbar"
         >
           <q-toolbar-title class="row items-center text-grey-8">
-            <img
+            <!-- <img
               class="q-pl-md"
               src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
-            />
+            /> -->
+            <!-- <img
+              alt="REACH Logo"
+              src="~assets/reach-logo-low.png"
+            /> -->
             <!-- <span class="q-ml-sm">Photos</span> -->
           </q-toolbar-title>
         </q-toolbar>
@@ -233,6 +232,9 @@ import { LocalStorage } from 'quasar'
 export default {
   data () {
     return {
+      bgStyle: {
+        backgroundColor: "#FFFFFF"
+      },
       mobileData: false,
       bluetooth: true,
       leftDrawerOpen: false,
@@ -283,30 +285,10 @@ export default {
   },
 
   created () {
-    this.checkOwner()
+    //
   },
 
   methods: {
-    checkOwner () {
-      switch (this.userType) {
-        case 'admin':
-          break;
-
-        case 'merchant':
-          break;
-
-        case 'dasher':
-          break;
-
-        case 'customer':
-          //
-          break;
-
-        default:
-          break;
-      }
-    },
-
     logout () {
       const spinner = typeof QSpinnerBars !== 'undefined'
         ? QSpinnerBars // Non-UMD, imported above

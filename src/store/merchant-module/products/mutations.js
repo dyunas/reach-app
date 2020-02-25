@@ -14,3 +14,10 @@ export const setCategories = (state, payload) => {
 
   state.categories = categories
 }
+
+export const updateCategory = (state, payload) => {
+  state.categories.push({
+    'label': payload.category,
+    'value': payload.id
+  })
+}

@@ -7,12 +7,14 @@ import loginModule from './login-module'
 
 import merchantDashboardModule from './merchant-module/dashboard'
 import merchantProductsModule from './merchant-module/products'
+import merchantOrdersModule from './merchant-module/orders'
 import merchantSettingsModule from './merchant-module/settings'
 
 import dasherDeliveryModule from './dasher-module/deliveries'
 
 import userDashboardModule from './user-module/dashboard'
 import userStoresModule from './user-module/stores'
+import userOrdersModule from './user-module/orders'
 
 Vue.use(Vuex);
 
@@ -32,6 +34,7 @@ export default function (/* { ssrContext } */) {
       // merchant
       merchantDashboardModule,
       merchantProductsModule,
+      merchantOrdersModule,
       merchantSettingsModule,
 
       // dasher
@@ -39,7 +42,8 @@ export default function (/* { ssrContext } */) {
 
       // user
       userDashboardModule,
-      userStoresModule
+      userStoresModule,
+      userOrdersModule
     },
 
     // enable strict mode (adds overhead!)
@@ -59,10 +63,12 @@ export default function (/* { ssrContext } */) {
 
         const newMerchantDashboardModule = require('./merchant-module/dashboard').default
         const newMerchantProductsModule = require('./merchant-module/products').default
+        const newMerchantOrdersModule = require('./merchant-module/orders').default
         const newMerchantSettingsModule = require('./merchant-module/settings').default
         const newDasherDeliveryModule = require('./dasher-module/deliveries').default
         const newUserDashboardModule = require('./user-module/dashboard').default
         const newUserStoresModule = require('./user-module/stores').default
+        const newUserOrdersModule = require('./user-module/orders').default
 
         Store.hotUpdate({
           modules: {
@@ -70,10 +76,12 @@ export default function (/* { ssrContext } */) {
             // adminModule: newAdminModule,
             merchantDashboardModule: newMerchantDashboardModule,
             merchantProductsModule: newMerchantProductsModule,
+            merchantOrdersModule: newMerchantOrdersModule,
             merchantSettingsModule: newMerchantSettingsModule,
             dasherDeliveryModule: newDasherDeliveryModule,
             userDashboardModule: newUserDashboardModule,
             userStoresModule: newUserStoresModule,
+            userOrdersModule: newUserOrdersModule,
           }
         })
       })
