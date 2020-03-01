@@ -1,5 +1,6 @@
 export const setProfile = (state, payload) => {
   state.profile = {
+    'photo': payload.merchant.photo,
     'email': payload.email,
     'account_type': payload.account_type,
     'created_at': payload.created_at,
@@ -14,4 +15,8 @@ export const setProfile = (state, payload) => {
     'closing': payload.merchant.closing,
     'id': payload.merchant.id
   }
+}
+
+export const setBanner = (state, banner) => {
+  state.profile.photo = banner
 }

@@ -1,5 +1,6 @@
 export default {
   'profile': {
+    'photo': '',
     'email': '',
     'account_type': '',
     'created_at': '',

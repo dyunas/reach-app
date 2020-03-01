@@ -6,7 +6,7 @@
         v-for="product in products"
         v-bind:key="product.id"
       >
-        <q-img :src="'http://localhost/reach-php/public/storage/' + product.avatar" />
+        <q-img :src="'http://18.162.151.188/storage/' + product.avatar" />
 
         <q-card-section>
           <div class="row no-wrap items-center">
@@ -103,3 +103,10 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.my-card
+  min-width: 320px
+  max-width: 400px
+  width: 100%
+</style>

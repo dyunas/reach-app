@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-card class="my-card">
-      <q-img src="https://jb-ph-cdn.tillster.com/demo/Carousel/Yumburger_MOBILE-BANNER_opt_750x398.jpg_8ec5b093-8e6b-41ed-b2d7-644f08131ef0.jpg">
+      <q-img :src="'http://18.162.151.188/storage/' + banner">
         <div class="absolute-bottom">
           <div class="text-h6 text-center">Jollibee</div>
         </div>
@@ -89,7 +89,7 @@
             v-bind:key="product.id"
           >
             <q-img
-              :src="'http://localhost/reach-php/public/storage/' + product.avatar"
+              :src="'http://18.162.151.188/storage/' + product.avatar"
               :ratio="4/3"
             />
 
@@ -136,12 +136,14 @@ export default {
       'tab': '',
       'categories': [],
       'products': [],
+      'banner': '',
     }
   },
 
   created () {
     this.checkPlatform()
     this.getStoreCategories()
+    this.getStoreBanner()
   },
 
   computed: {
@@ -157,6 +159,18 @@ export default {
       } else {
         this.isDesktop = false
       }
+    },
+
+    getStoreBanner () {
+      this.$store.dispatch('userStoresModule/getStoreBanner', {
+        merchant_id: this.$route.params.id
+      })
+        .then(response => {
+          this.banner = response.data[0].photo
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
 
     addToCart (product) {

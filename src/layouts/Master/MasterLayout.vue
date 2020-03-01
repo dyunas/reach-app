@@ -27,11 +27,10 @@
           shrink
           class="row items-center no-wrap"
         >
-          <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg" />
-          <!-- <img
-            alt="REACH Logo"
-            src="~assets/reach-logo-low.png"
-          /> -->
+          <img
+            src="statics/logo-pixel-740x240.png"
+            style="width: 124px; height: 34px"
+          />
         </q-toolbar-title>
 
         <q-space />
@@ -198,15 +197,10 @@
           class="GPL__toolbar"
         >
           <q-toolbar-title class="row items-center text-grey-8">
-            <!-- <img
-              class="q-pl-md"
-              src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
-            /> -->
-            <!-- <img
-              alt="REACH Logo"
-              src="~assets/reach-logo-low.png"
-            /> -->
-            <!-- <span class="q-ml-sm">Photos</span> -->
+            <img
+              src="statics/logo-pixel-740x240.png"
+              style="width: 124px; height: 34px"
+            />
           </q-toolbar-title>
         </q-toolbar>
 
@@ -367,6 +361,7 @@ export default {
 
   beforeDestroy () {
     this.audio.file.pause()
+    this.audio.isPlaying = false
     this.audio.file.currentTime = 0
   },
 
@@ -384,7 +379,6 @@ export default {
           this.merchantOrderUpdate(notify)
           this.audio.isPlaying = true
           this.audio.file.play()
-          this.audio.file.loop = true
         })
 
       this.$echo.channel('merchant-order-tracker-' + LocalStorage.getItem('ownerID'))

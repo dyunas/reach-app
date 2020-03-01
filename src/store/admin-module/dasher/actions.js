@@ -4,7 +4,7 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.162.151.188/api'
 
 export const getDasherList = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token

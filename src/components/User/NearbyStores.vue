@@ -6,7 +6,10 @@
         v-for="store in nearbyStores"
         v-bind:key="store.id"
       >
-        <q-img src="https://jb-ph-cdn.tillster.com/demo/Carousel/Yumburger_MOBILE-BANNER_opt_750x398.jpg_8ec5b093-8e6b-41ed-b2d7-644f08131ef0.jpg" />
+        <q-img
+          :src="'http://18.162.151.188/storage/' + store.photo"
+          :ratio="4/3"
+        />
 
         <q-card-section>
           <q-btn
@@ -76,5 +79,6 @@ export default {
 <style lang="sass" scoped>
 .my-card
   min-width: 320px
-  max-width: 320px
+  max-width: 400px
+  width: 100%
 </style>

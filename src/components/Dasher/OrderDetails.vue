@@ -191,6 +191,7 @@
     <q-dialog
       v-model="dialog"
       persistent
+      ref="destinationDialog"
       :maximized="maximizedToggle"
       transition-show="slide-up"
       transition-hide="slide-down"
@@ -202,7 +203,7 @@
             dense
             flat
             icon="close"
-            v-close-popup
+            @click="closeDestinationDialog()"
           >
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
@@ -391,8 +392,13 @@ export default {
       }, 2000)
     },
 
+    closeDestinationDialog () {
+      navigator.geolocation.clearWatch(this.watchID);
+      this.$refs.destinationDialog.hide()
+    },
+
     onLocationError (error) {
-      alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
+      console.log('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
     },
 
     getUpdatedOrderDetails (notify) {

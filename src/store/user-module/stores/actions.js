@@ -4,7 +4,7 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.162.151.188/api'
 
 export const getStoreCategories = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
@@ -28,6 +28,19 @@ export const getStoreProductsByCategory = (context, payload) => {
       })
       .catch(error => {
         reject(error.data)
+      })
+  })
+}
+
+export const getStoreBanner = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/store_getBanner?merchant_id=' + payload.merchant_id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
       })
   })
 }

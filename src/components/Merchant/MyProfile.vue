@@ -5,6 +5,30 @@
       class="rounded-borders"
       v-if="$q.platform.is.desktop"
     >
+      <q-item>
+        <q-item-section>
+          <q-item-label class="text-right">
+            <q-btn
+              label="Change banner"
+              outline
+              style="color: #027BE3"
+              icon="insert_photo"
+              @click="changeBanner = true"
+            />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-img
+            :src="'http://18.162.151.188/storage/' + this.profile.photo"
+            alt="Banner"
+            style="width: 100%; height: 370px;"
+            :ratio="16/9"
+          />
+        </q-item-section>
+      </q-item>
+
       <q-item-label header>My Information</q-item-label>
 
       <q-item>
@@ -79,6 +103,30 @@
       class="rounded-borders"
       v-if="$q.platform.is.mobile"
     >
+      <q-item>
+        <q-item-section>
+          <q-item-label class="text-right">
+            <q-btn
+              label="Change banner"
+              outline
+              style="color: #027BE3"
+              icon="insert_photo"
+              @click="changeBanner = true"
+            />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-img
+            :src="'http://18.162.151.188/storage/' + this.profile.photo"
+            alt="Banner"
+            style="width: 100%; height: 370px;"
+            :ratio="16/9"
+          />
+        </q-item-section>
+      </q-item>
+
       <q-item-label header>My Information</q-item-label>
 
       <q-item>
@@ -167,6 +215,53 @@
         </q-item-section>
       </q-item>
     </q-list>
+
+    <q-dialog
+      v-model="changeBanner"
+      ref="changeBanner"
+    >
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Change Banner</div>
+          <q-space />
+          <q-btn
+            icon="close"
+            flat
+            round
+            dense
+            v-close-popup
+          />
+        </q-card-section>
+
+        <q-card-section>
+          <q-form
+            @submit="onSubmit"
+            class="q-gutter-md"
+          >
+            <div class="col col-xs-12 col-sm-12 col-md-4">
+              <q-input
+                @change="onFileSelected"
+                outlined
+                type="file"
+              />
+            </div>
+            <br />
+            <div>
+              <q-btn
+                label="Save"
+                :loading="submitting"
+                type="submit"
+                color="primary"
+              >
+                <template v-slot:loading>
+                  <q-spinner-bars />
+                </template>
+              </q-btn>
+            </div>
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -176,6 +271,35 @@ export default {
     profile: {
       type: Object,
       requried: true
+    }
+  },
+
+  data () {
+    return {
+      changeBanner: false,
+      banner: '',
+      submitting: false,
+    }
+  },
+
+  methods: {
+    onFileSelected (event) {
+      this.banner = event.target.files[0]
+    },
+
+    onSubmit () {
+      this.loading = true
+
+      this.$store.dispatch('merchantSettingsModule/changeBanner', {
+        banner: this.banner
+      })
+        .then(response => {
+          this.loading = false
+          this.$refs.changeBanner.hide()
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
