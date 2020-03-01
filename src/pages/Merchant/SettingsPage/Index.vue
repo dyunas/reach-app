@@ -40,41 +40,15 @@
             animated
           >
             <q-tab-panel name="profile">
-              <div class="row">
-                <div class="col col-lg-12 col-md-12 col-sm-12">
-                  <q-card-section>
-                    <q-markup-table>
-                      <tbody>
-                        <tr>
-                          <td>Merchant: {{ this.profile.merchant_name }}</td>
-                          <td>Store Hours: {{ (this.profile.opening !== '00:00:00' && this.profile.closing !== '00:00:00') ? this.profile.opening+' - '+ this.profile.closing : '24hrs' }}</td>
-                          <td>Status: {{ this.profile.status }}</td>
-                        </tr>
-                        <tr>
-                          <td>Email: {{ this.profile.email }}</td>
-                          <td>Phone: {{ this.profile.contact_num }}</td>
-                          <td>Account type: {{ this.profile.account_type }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3">Location: {{ this.profile.location }}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3">Joined: {{ this.profile.created_at }}</td>
-                        </tr>
-                      </tbody>
-                    </q-markup-table>
-                  </q-card-section>
-                </div>
-                <div class="col col-lg-6 col-md-6 col-sm-6">
-                  <q-card-section>
-                    <div class="map-container">
-                      <div id="map"></div>
-                    </div>
-                  </q-card-section>
-                </div>
-              </div>
+              <my-profile :profile="this.profile"></my-profile>
             </q-tab-panel>
-            <q-tab-panel name="editProfile"></q-tab-panel>
+            <q-tab-panel name="editProfile">
+              <edit-profile
+                :profile="this.profile"
+                v-on:submitting="submitted"
+                :loading="loading"
+              ></edit-profile>
+            </q-tab-panel>
             <q-tab-panel name="changePass"></q-tab-panel>
           </q-tab-panels>
         </q-card>
@@ -84,11 +58,20 @@
 </template>
 
 <script>
+import MyProfile from "components/Merchant/MyProfile"
+import EditProfile from "components/Merchant/EditProfile"
+
 export default {
+  components: {
+    MyProfile,
+    EditProfile
+  },
+
   data () {
     return {
       isDesktop: true,
-      tab: 'profile'
+      tab: 'profile',
+      loading: false
     };
   },
 
@@ -100,7 +83,6 @@ export default {
 
   created () {
     this.getProfileDetails()
-    this.getMap()
   },
 
   methods: {
@@ -108,25 +90,35 @@ export default {
       this.$store.dispatch('merchantSettingsModule/getProfileDetails')
     },
 
+    submitted (payload) {
+      this.loading = true
 
-    getMap () {
-      var mapOptions = {
-        center: new google.maps.LatLng(14.3472626, 121.0652705),
-        zoom: 19,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
+      this.$store.dispatch('merchantSettingsModule/updateProfile', {
+        merchantName: payload.merchantName,
+        openingTime: payload.openingTime,
+        closingTime: payload.closingTime,
+        email: payload.email,
+        contactNumber: payload.contactNumber,
+        location: payload.location,
+        lat: payload.lat,
+        long: payload.long,
+        id: this.profile.id
+      })
+        .then(response => {
+          this.$q.notify({
+            color: 'green-9',
+            textColor: 'white',
+            icon: 'fas fa-check-circle',
+            message: 'Profile updated successfully!',
+            position: 'top',
+            timeout: 3000
+          })
 
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions)
-
-      var latLong = new google.maps.LatLng(14.3472626, 121.0652705)
-
-      var marker = new google.maps.Marker({
-        position: latLong
-      });
-
-      marker.setMap(map)
-      map.setZoom(19)
-      map.setCenter(marker.getPosition())
+          this.loading = false
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     }
   }
 }

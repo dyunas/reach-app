@@ -49,7 +49,7 @@ export const addCategory = (context, payload) => {
 
 export const createProduct = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
-  return new Promise((reject) => {
+  return new Promise((resolve, reject) => {
     const fd = new FormData()
     fd.append('avatar', payload.avatar)
     fd.append('avatar_name', payload.avatar.name)
@@ -62,7 +62,7 @@ export const createProduct = (context, payload) => {
     axios.post('/merchant_products', fd)
       .then(response => {
         // context.commit('setProducts', response.data)
-        console.log(response)
+        resolve(response)
       })
       .catch(error => {
         reject(error)

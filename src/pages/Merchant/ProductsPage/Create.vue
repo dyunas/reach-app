@@ -32,7 +32,7 @@ export default {
             color: 'green-9',
             textColor: 'white',
             icon: 'fas fa-check-circle',
-            message: 'Product saved',
+            message: response.data.message,
             position: 'top',
             timeout: 5000
           })

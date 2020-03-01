@@ -50,12 +50,19 @@ export default {
       rider_id: LocalStorage.getItem('ownerID'),
       intervalID: '',
       message: '',
-      path: ''
+      path: '',
+      audio: {
+        file: new Audio('statics/audios/loud_alarm.mp3'),
+        isPlaying: false
+      }
     }
   },
 
   beforeDestroy () {
     clearInterval(this.intervalID)
+    this.audio.isPlaying = false
+    this.audio.file.pause()
+    this.audio.file.loop = false
   },
 
   created () {
@@ -66,15 +73,23 @@ export default {
     this.$echo.channel('rider-tracker-' + this.rider_id)
       .listen('PlacedOrder', (notify) => {
         this.orderUp(notify)
+        this.audio.isPlaying = true
+        this.audio.file.play()
+        this.audio.file.loop = true
         clearInterval(this.intervalID)
       })
+  },
+
+  beforeDestroy () {
+    this.audio.file.pause()
+    this.audio.file.currentTime = 0
   },
 
   methods: {
     checkPendingDelivery () {
       this.$store.dispatch('dasherDeliveryModule/checkPendingDelivery')
         .then(response => {
-          if (response.data !== 'false') {
+          if (response.data.length > 0) {
             this.visible = false
             this.showReturnData = true
             this.header = 'Order up!'
@@ -120,7 +135,7 @@ export default {
       this.showReturnData = true
       this.header = 'Order up!'
       this.message = notify.notify.message
-      this.path = notify.notify.path
+      this.path = '/dasher/deliveries/' + notify.notify.path
     }
   }
 }

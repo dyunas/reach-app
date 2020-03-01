@@ -108,6 +108,19 @@ export const getMerchantLatLong = () => {
   })
 }
 
+export const getStoreDistance = (context) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/getStoreDistanceInKM/' + LocalStorage.getItem('merchantID') + '?lat=' + LocalStorage.getItem('lat') + '&long=' + LocalStorage.getItem('long'))
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
 export const getCurrentLocation = () => {
   const lat = LocalStorage.getItem('lat')
   const long = LocalStorage.getItem('long')
@@ -147,15 +160,20 @@ export const placeOrder = async (context, payload) => {
       merchLat: merchLatLong.data[0].latitude,
       merchLong: merchLatLong.data[0].longitude,
       subTotal: payload.subTotal,
+      distance: payload.distance,
+      deliveryFee: payload.deliveryFee,
       total: payload.total,
       paymentMode: payload.paymentMode
     })
       .then(result => {
-        LocalStorage.remove('cart')
-        LocalStorage.remove('cartCount')
-        LocalStorage.remove('merchantID')
+        if (result.data.ok === true) {
+          LocalStorage.remove('cart')
+          LocalStorage.remove('cartCount')
+          LocalStorage.remove('merchantID')
 
-        context.commit('undoCart')
+          context.commit('undoCart')
+          resolve(result.data)
+        }
 
         resolve(result.data)
       })

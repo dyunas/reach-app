@@ -48,6 +48,7 @@
         icon="directions"
         label="Get directions to merchant"
         @click="getMapDirectionsToMerchant"
+        v-if="this.order[0].status !== 'Delivery on the way' && this.order[0].status !== 'Delivered'"
       />
 
       <q-btn
@@ -56,6 +57,7 @@
         icon="directions"
         label="Get directions to customer"
         @click="getMapDirectionsToCustomer"
+        v-if="this.order[0].status === 'Delivery on the way' && this.order[0].status !== 'Delivered'"
       />
     </div>
     <br />
@@ -170,6 +172,22 @@
       </div>
     </q-card>
 
+    <q-btn
+      class="full-width q-mt-md"
+      color="primary"
+      label="Pick up delivery"
+      @click="updateOrderStatus('Delivery on the way')"
+      v-if="this.order[0].status === 'Ready for delivery'"
+    />
+
+    <q-btn
+      class="full-width q-mt-md"
+      color="primary"
+      label="Delivered/Drop off"
+      @click="updateOrderStatus('Delivered')"
+      v-if="this.order[0].status === 'Delivery on the way'"
+    />
+
     <q-dialog
       v-model="dialog"
       persistent
@@ -222,6 +240,8 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar'
+
 export default {
   props: {
     order: {
@@ -241,6 +261,17 @@ export default {
     }
   },
 
+  mounted () {
+    this.$echo.channel('rider-order-tracker-' + LocalStorage.getItem('ownerID'))
+      .listen('UpdateOrder', (notify) => {
+        this.getUpdatedOrderDetails(notify)
+      })
+  },
+
+  destroy () {
+    navigator.geolocation.clearWatch(this.watchID);
+  },
+
   methods: {
     qtyTotal (price, qty) {
       return (parseFloat(price) * parseInt(qty)).toFixed(2)
@@ -254,26 +285,26 @@ export default {
       this.showReturnData = false
 
       setTimeout(() => {
-        navigator.geolocation.getCurrentPosition(
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+
+        var mapOptions = {
+          // center: new google.maps.LatLng(lat, long),
+          zoom: 19,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions)
+
+        directionsRenderer.setMap(map)
+
+        this.watchID = navigator.geolocation.watchPosition(
           (position) => {
             var lat = position.coords.latitude.toFixed(7)
             var long = position.coords.longitude.toFixed(7)
 
             var merchLat = this.order[0].merchLat
             var merchLong = this.order[0].merchLong
-
-            var directionsService = new google.maps.DirectionsService();
-            var directionsRenderer = new google.maps.DirectionsRenderer();
-
-            var mapOptions = {
-              // center: new google.maps.LatLng(lat, long),
-              zoom: 19,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions)
-
-            directionsRenderer.setMap(map)
 
             var request = {
               // travelMode: google.maps.DirectionsTravelMode.DRIVING,
@@ -286,19 +317,20 @@ export default {
 
             directionsService.route(request, function (response, status) {
               if (status == google.maps.DirectionsStatus.OK) {
-                directionsRenderer.setDirections(response);
+                directionsRenderer.setDirections(response)
               } else
-                alert('failed to get directions');
-            });
-
-            this.visible = false
-            this.showReturnData = true
+                alert('failed to get directions')
+            })
           },
           this.onLocationError,
           {
-            enableHighAccuracy: true
+            enableHighAccuracy: true,
+            maximumAge: 0
           }
         )
+
+        this.visible = false
+        this.showReturnData = true
       }, 2000)
     },
 
@@ -310,26 +342,26 @@ export default {
       this.showReturnData = false
 
       setTimeout(() => {
-        navigator.geolocation.getCurrentPosition(
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+
+        var mapOptions = {
+          // center: new google.maps.LatLng(lat, long),
+          zoom: 19,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions)
+
+        directionsRenderer.setMap(map)
+
+        this.watchID = navigator.geolocation.watchPosition(
           (position) => {
             var lat = position.coords.latitude.toFixed(7)
             var long = position.coords.longitude.toFixed(7)
 
             var custLat = this.order[0].custLat
             var custLong = this.order[0].custLong
-
-            var directionsService = new google.maps.DirectionsService();
-            var directionsRenderer = new google.maps.DirectionsRenderer();
-
-            var mapOptions = {
-              // center: new google.maps.LatLng(lat, long),
-              zoom: 19,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions)
-
-            directionsRenderer.setMap(map)
 
             var request = {
               // travelMode: google.maps.DirectionsTravelMode.DRIVING,
@@ -342,24 +374,42 @@ export default {
 
             directionsService.route(request, function (response, status) {
               if (status == google.maps.DirectionsStatus.OK) {
-                directionsRenderer.setDirections(response);
+                directionsRenderer.setDirections(response)
               } else
-                alert('failed to get directions');
-            });
-
-            this.visible = false
-            this.showReturnData = true
+                alert('failed to get directions')
+            })
           },
           this.onLocationError,
           {
-            enableHighAccuracy: true
+            enableHighAccuracy: true,
+            maximumAge: 0
           }
         )
+
+        this.visible = false
+        this.showReturnData = true
       }, 2000)
     },
 
     onLocationError (error) {
       alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n')
+    },
+
+    getUpdatedOrderDetails (notify) {
+      this.order[0].status = notify.notify.message
+    },
+
+    updateOrderStatus (status) {
+      this.$store.dispatch('dasherDeliveryModule/updateOrderStatus', {
+        id: this.order[0].id,
+        status: status
+      })
+        .then(response => {
+          this.order[0].status = status
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     }
   }
 }

@@ -3,7 +3,11 @@ import Vuex from "vuex";
 
 import loginModule from './login-module'
 
-// import adminModule from './admin-module'
+import adminCustomerModule from './admin-module/customer'
+import adminMerchantModule from './admin-module/merchant'
+import adminDasherModule from './admin-module/dasher'
+import adminTransactionModule from './admin-module/transaction'
+import adminRevenueModule from './admin-module/revenue'
 
 import merchantDashboardModule from './merchant-module/dashboard'
 import merchantProductsModule from './merchant-module/products'
@@ -29,7 +33,11 @@ export default function (/* { ssrContext } */) {
       loginModule,
 
       // admin
-      // adminModule,
+      adminCustomerModule,
+      adminMerchantModule,
+      adminDasherModule,
+      adminTransactionModule,
+      adminRevenueModule,
 
       // merchant
       merchantDashboardModule,
@@ -59,13 +67,19 @@ export default function (/* { ssrContext } */) {
       () => {
         const newLoginModule = require('./login-module').default
 
-        // const newAdminModule = require('./admin-module').default
+        const newAdminCustomerModule = require('./admin-module/customer').default
+        const newAdminMerchantModule = require('./admin-module/merchant').default
+        const newAdminDasherModule = require('./admin-module/dasher').default
+        const newAdminTransactionModule = require('./admin-module/transaction').default
+        const newAdminRevenueModule = require('./admin-module/revenue').default
 
         const newMerchantDashboardModule = require('./merchant-module/dashboard').default
         const newMerchantProductsModule = require('./merchant-module/products').default
         const newMerchantOrdersModule = require('./merchant-module/orders').default
         const newMerchantSettingsModule = require('./merchant-module/settings').default
+
         const newDasherDeliveryModule = require('./dasher-module/deliveries').default
+
         const newUserDashboardModule = require('./user-module/dashboard').default
         const newUserStoresModule = require('./user-module/stores').default
         const newUserOrdersModule = require('./user-module/orders').default
@@ -73,12 +87,20 @@ export default function (/* { ssrContext } */) {
         Store.hotUpdate({
           modules: {
             loginModule: newLoginModule,
-            // adminModule: newAdminModule,
+
+            adminCustomerModule: newAdminCustomerModule,
+            adminMerchantModule: newAdminMerchantModule,
+            adminDasherModule: newAdminDasherModule,
+            adminTransactionModule: newAdminTransactionModule,
+            adminRevenueModule: newAdminRevenueModule,
+
             merchantDashboardModule: newMerchantDashboardModule,
             merchantProductsModule: newMerchantProductsModule,
             merchantOrdersModule: newMerchantOrdersModule,
             merchantSettingsModule: newMerchantSettingsModule,
+
             dasherDeliveryModule: newDasherDeliveryModule,
+
             userDashboardModule: newUserDashboardModule,
             userStoresModule: newUserStoresModule,
             userOrdersModule: newUserOrdersModule,

@@ -11,6 +11,7 @@ export const setProfile = (state, payload) => {
     'contact_num': payload.merchant.contact_num,
     'status': payload.merchant.status,
     'opening': payload.merchant.opening,
-    'closing': payload.merchant.closing
+    'closing': payload.merchant.closing,
+    'id': payload.merchant.id
   }
 }

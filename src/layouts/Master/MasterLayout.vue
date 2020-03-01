@@ -45,25 +45,114 @@
             icon="notifications"
             v-if="this.userType !== 'dasher'"
           >
-            <q-badge
-              color="red"
-              text-color="white"
-              floating
-            >2</q-badge>
-            <q-tooltip>Notifications</q-tooltip>
-            <q-menu
-              transition-show="jump-down"
-              transition-hide="jump-up"
-            >
-              <q-list style="min-width: 100px">
-                <q-item clickable>
-                  <q-item-section>
-                    Having fun
-                    <span class="text-caption text-weight-light">Nov. 29, 2019 - 02:38 PM</span>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
+            <div v-if="this.userType === 'customer'">
+              <q-badge
+                color="red"
+                text-color="white"
+                floating
+                v-if="userOrderUpdateCount > 0"
+              >
+                {{ userOrderUpdateCount }}
+              </q-badge>
+              <q-tooltip>Notifications</q-tooltip>
+              <q-menu
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-if="userOrderUpdateCount > 0"
+              >
+                <q-list style="min-width: 100px">
+                  <q-item
+                    v-for="(update, index) in userOrderUpdates"
+                    v-bind:key="index"
+                    clickable
+                    :to="{ path: '/user/my_orders/' + update.notify.path }"
+                    @click="removeItemFromUserNotification(index)"
+                  >
+                    <q-item-section>
+                      <span class="text-caption text-weight-bold">
+                        {{ update.notify.header }}
+                      </span>
+                      <span class="text-caption text-weight-normal">
+                        {{ update.notify.message }}
+                      </span>
+                      <span class="text-caption text-weight-light">
+                        <timeago
+                          :datetime="update.notify.date"
+                          :auto-update="60"
+                        ></timeago>
+                      </span>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+              <q-menu
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-else
+              >
+                <q-list style="min-width: 100px">
+                  <q-item>
+                    <q-item-section>
+                      NO NEW NOTIFICATION
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </div>
+            <div v-if="this.userType === 'merchant'">
+              <q-badge
+                color="red"
+                text-color="white"
+                floating
+                v-if="merchantOrderUpdateCount > 0"
+              >
+                {{ merchantOrderUpdateCount }}
+              </q-badge>
+              <q-tooltip>Notifications</q-tooltip>
+              <q-menu
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-if="merchantOrderUpdates.length > 0"
+              >
+                <q-list style="min-width: 100px">
+                  <q-item
+                    v-for="(update, index) in merchantOrderUpdates"
+                    v-bind:key="index"
+                    clickable
+                    :to="{ path: '/merchant/orders/' + update.notify.path }"
+                    @click="removeItemFromMerchantNotification(index)"
+                  >
+                    <q-item-section>
+                      <span class="text-caption text-weight-bold">
+                        {{ update.notify.header }}
+                      </span>
+                      <span class="text-caption text-weight-normal">
+                        {{ update.notify.message }}
+                      </span>
+                      <span class="text-caption text-weight-light">
+                        <timeago
+                          :datetime="update.notify.date"
+                          :auto-update="60"
+                        ></timeago>
+                      </span>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+              <q-menu
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-else
+              >
+                <q-list style="min-width: 100px">
+                  <q-item>
+                    <q-item-section>
+                      NO NEW NOTIFICATION
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </div>
           </q-btn>
           <q-btn
             round
@@ -124,22 +213,7 @@
         <q-list padding>
           <q-item-label header>Navigation</q-item-label>
           <div v-if="this.userType === 'admin'">
-            <q-item
-              v-for="link in adminLinks"
-              :key="link.text"
-              clickable
-              class="q-router"
-              v-ripple
-              exact
-              :to="link.path"
-            >
-              <q-item-section avatar>
-                <q-icon :name="link.icon" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ link.text }}</q-item-label>
-              </q-item-section>
-            </q-item>
+            <admin-links></admin-links>
           </div>
           <div v-if="this.userType === 'merchant'">
             <q-item
@@ -228,8 +302,13 @@
 <script>
 import { QSpinnerBars } from 'quasar'
 import { LocalStorage } from 'quasar'
+import AdminLinks from "components/Navigation/AdminLinks";
 
 export default {
+  components: {
+    AdminLinks
+  },
+
   data () {
     return {
       bgStyle: {
@@ -238,11 +317,6 @@ export default {
       mobileData: false,
       bluetooth: true,
       leftDrawerOpen: false,
-      adminLinks: [
-        { icon: 'dashboard', text: 'Dashboard', path: '/admin/dashboard' },
-        { icon: 'shopping_cart', text: 'My Cart', path: '/admin/my_card' },
-        { icon: 'build', text: 'Settings', path: '/admin/settings' }
-      ],
       merchantLinks: [
         { icon: 'dashboard', text: 'Dashboard', path: '/merchant/dashboard' },
         { icon: 'store', text: 'My Products', path: '/merchant/my_products' },
@@ -263,8 +337,15 @@ export default {
       buttons2: [
         { text: 'Terms & Conditions' }
       ],
-      watchID: '',
+      audio: {
+        file: new Audio('statics/audios/loud_alarm.mp3'),
+        isPlaying: false
+      },
       intervalID: '',
+      userOrderUpdateCount: 0,
+      userOrderUpdates: [],
+      merchantOrderUpdateCount: 0,
+      merchantOrderUpdates: [],
     }
   },
 
@@ -284,8 +365,33 @@ export default {
     }
   },
 
-  created () {
-    //
+  beforeDestroy () {
+    this.audio.file.pause()
+    this.audio.file.currentTime = 0
+  },
+
+  mounted () {
+    if (LocalStorage.getItem('type') === 'customer') {
+      this.$echo.channel('status-order-tracker-' + LocalStorage.getItem('ownerID'))
+        .listen('UpdateOrder', (notify) => {
+          this.userOrderUpdate(notify)
+        })
+    }
+
+    if (LocalStorage.getItem('type') === 'merchant') {
+      this.$echo.channel('merchant-tracker' + LocalStorage.getItem('ownerID'))
+        .listen('PlacedOrder', (notify) => {
+          this.merchantOrderUpdate(notify)
+          this.audio.isPlaying = true
+          this.audio.file.play()
+          this.audio.file.loop = true
+        })
+
+      this.$echo.channel('merchant-order-tracker-' + LocalStorage.getItem('ownerID'))
+        .listen('UpdateOrder', (notify) => {
+          this.merchantOrderUpdate(notify)
+        })
+    }
   },
 
   methods: {
@@ -306,6 +412,32 @@ export default {
           this.$q.loading.hide()
           this.$router.push({ path: '/' })
         })
+    },
+
+    userOrderUpdate (notify) {
+      this.userOrderUpdates.unshift(notify)
+      this.userOrderUpdateCount = this.userOrderUpdates.length
+    },
+
+    merchantOrderUpdate (notify) {
+      this.merchantOrderUpdates.unshift(notify)
+      this.merchantOrderUpdateCount = this.merchantOrderUpdates.length
+    },
+
+    removeItemFromUserNotification (index) {
+      this.userOrderUpdates.splice(index, 1)
+      this.userOrderUpdateCount = this.userOrderUpdateCount - 1
+      this.audio.isPlaying = false
+      this.audio.file.pause()
+      this.audio.file.currentTime = 0
+    },
+
+    removeItemFromMerchantNotification (index) {
+      this.merchantOrderUpdates.splice(index, 1)
+      this.merchantOrderUpdateCount = this.merchantOrderUpdateCount - 1
+      this.audio.isPlaying = false
+      this.audio.file.pause()
+      this.audio.file.currentTime = 0
     }
   }
 }

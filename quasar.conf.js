@@ -102,7 +102,9 @@ module.exports = function (ctx) {
         'QParallax',
         'QSkeleton',
         'QRadio',
-        'QBar'
+        'QBar',
+        'QTime',
+        'QExpansionItem'
       ],
 
       directives: [
@@ -114,7 +116,8 @@ module.exports = function (ctx) {
       plugins: [
         'Notify',
         'Loading',
-        'LocalStorage'
+        'LocalStorage',
+        'Dialog'
       ],
       config: {
         notify: { /* Notify defaults */ },
@@ -162,8 +165,8 @@ module.exports = function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
+        name: 'Reach App',
+        short_name: 'Reach App',
         description: 'A food ordering application',
         display: 'standalone',
         orientation: 'portrait',

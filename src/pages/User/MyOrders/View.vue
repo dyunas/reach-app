@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar'
 import OrderDetails from 'components/User/OrderDetails'
 
 export default {
@@ -54,6 +55,13 @@ export default {
     this.getOrderDetails()
   },
 
+  mounted () {
+    this.$echo.channel('status-order-tracker-' + LocalStorage.getItem('ownerID'))
+      .listen('UpdateOrder', (notify) => {
+        this.getUpdatedOrderDetails(notify)
+      })
+  },
+
   methods: {
     getOrderDetails () {
       this.loadingState = true
@@ -69,8 +77,12 @@ export default {
           this.doneFetching = true
         })
         .catch(error => {
-          alert(error.data)
+          console.log(error)
         })
+    },
+
+    getUpdatedOrderDetails (notify) {
+      this.details[0].status = notify.notify.message
     }
   }
 }

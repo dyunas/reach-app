@@ -31,3 +31,37 @@ export const getOrderDetails = (context, payload) => {
       })
   })
 }
+
+export const rateDasher = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.post('/ratings', {
+      order_id: payload.order_id,
+      customer_id: LocalStorage.getItem('ownerID'),
+      dasher_id: payload.dasher_id,
+      rating: payload.rating,
+      comment: payload.comment
+    })
+      .then(response => {
+        context.commit('setRating', response.data.rating)
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const getRating = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/ratings/' + payload.order_id)
+      .then(response => {
+        context.commit('setRating', response.data)
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}

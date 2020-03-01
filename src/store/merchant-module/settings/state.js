@@ -10,6 +10,7 @@ export default {
     'lang': '',
     'phone_num': '',
     'status': '',
-    'store_hours': ''
+    'store_hours': '',
+    'id': ''
   }
 }

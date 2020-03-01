@@ -1,12 +1,23 @@
 <template>
   <q-page
-    class="flex flex-center"
+    class="flex flex-center full-width full-height"
     :class="heightSize"
   >
     <div class="row">
       <img
         alt="Reach logo"
-        src="~assets/reach-logo-low.png"
+        src="~assets/logo-pixel-740x240.png"
+        :ratio="16/9"
+        style="width: 500px; height: 200px"
+        v-if="$q.platform.is.desktop"
+      />
+
+      <img
+        alt="Reach logo"
+        src="~assets/logo-pixel-740x240.png"
+        :ratio="16/9"
+        style="width: 300px; height: 100px"
+        v-if="$q.platform.is.mobile"
       />
     </div>
     <div class="row">
@@ -158,5 +169,5 @@ export default {
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  min-width: 300px
+  min-width: 320px
 </style>

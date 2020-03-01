@@ -32,25 +32,41 @@
 
       <br />
 
-      <h6 class="text-body1 pageHeader text-weight-bold">Rider Info:</h6>
+      <h6 class="text-body1 pageHeader text-weight-bold">Dasher Info:</h6>
       <div class="row">
         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="text-body2">Rider: {{ this.details[0].rider.fname+' '+this.details[0].rider.lname }}</div>
+          <div class="text-body2">Dasher: {{ this.details[0].rider.fname+' '+this.details[0].rider.lname }}</div>
         </div>
         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div class="text-body2">Contact Number: {{ '+63' + this.details[0].rider.contact_number }}</div>
+        </div>
+        <div
+          v-if="rated"
+          class="col col-lg-12 col-md-12 col-sm-12 col-xs-12"
+        >
+          <div class="text-body2">Rating:
+            <q-rating
+              readonly
+              v-model="this.rate"
+              size="1.5em"
+              :max="5"
+              color="yellow"
+            />
+          </div>
+
         </div>
       </div>
     </q-card>
 
     <br />
 
-    <div class="row">
+    <div class="row justify-center full-height full-width">
       <q-btn
         class="full-width"
         color="primary"
         label="Rate rider"
         @click="riderRating = true"
+        v-if="this.details[0].status === 'Delivered' && rated === false"
       />
     </div>
 
@@ -245,8 +261,26 @@ export default {
       riderRating: false,
       submitting: false,
       rating: 1,
-      comment: ''
+      comment: '',
+      submitting: false,
+      rated: false,
     }
+  },
+
+  computed: {
+    rate () {
+      return this.$store.getters['userOrdersModule/getRating']
+    }
+  },
+
+  mounted () {
+    this.$store.dispatch('userOrdersModule/getRating', {
+      order_id: this.$route.params.id
+    }).then(response => {
+      this.rated = true
+    }).catch(error => {
+      console.log(error)
+    })
   },
 
   methods: {
@@ -255,7 +289,22 @@ export default {
     },
 
     onSubmit () {
-      //
+      this.submitting = true
+
+      this.$store.dispatch('userOrdersModule/rateDasher', {
+        order_id: this.$route.params.id,
+        dasher_id: this.details[0].rider.id,
+        rating: this.rating,
+        comment: this.comment
+      })
+        .then(response => {
+          this.submitting = false
+          this.$refs.ratingDialog.hide()
+          this.rated = true
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     },
 
     onReset () {

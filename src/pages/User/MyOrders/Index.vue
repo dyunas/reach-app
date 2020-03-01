@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar'
 import OrderList from 'components/User/OrderList'
 
 export default {
@@ -76,6 +77,13 @@ export default {
     this.getOrderList()
   },
 
+  mounted () {
+    this.$echo.channel('status-order-tracker-' + LocalStorage.getItem('ownerID'))
+      .listen('UpdateOrder', (notify) => {
+        this.getUpdatedOrderList()
+      })
+  },
+
   computed: {
     orders () {
       return this.$store.getters['userOrdersModule/getOrders']
@@ -92,6 +100,13 @@ export default {
           this.loadingState = false
           this.showList = true
         })
+        .catch(error => {
+          alert(error.data)
+        })
+    },
+
+    getUpdatedOrderList () {
+      this.$store.dispatch('userOrdersModule/getOrderList')
         .catch(error => {
           alert(error.data)
         })

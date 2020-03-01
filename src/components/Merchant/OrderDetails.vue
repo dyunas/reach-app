@@ -29,13 +29,13 @@
 
       <br />
 
-      <h6 class="text-body1 pageHeader text-weight-bold">Merchant Info:</h6>
+      <h6 class="text-body1 pageHeader text-weight-bold">Dasher Info:</h6>
       <div class="row">
         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="text-body2">Merchant: {{ this.details[0].merchant.merchant_name }}</div>
+          <div class="text-body2">Dasher: {{ this.details[0].rider.fname +" "+ this.details[0].rider.lname }}</div>
         </div>
         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="text-body2">Location: {{ this.details[0].merchant.location }}</div>
+          <div class="text-body2">Contact Number: {{ "+63" + this.details[0].rider.contact_number }}</div>
         </div>
       </div>
     </q-card>
@@ -47,6 +47,7 @@
         color="primary"
         label="Update Order Status"
         @click="orderStatusDialog = true"
+        v-if="this.details[0].status !== 'Delivery on the way' && this.details[0].status !== 'Delivered'"
       />
     </div>
     <br />
@@ -281,6 +282,9 @@ export default {
             position: 'top',
             timeout: 3000,
           })
+
+          this.submitting = false
+          this.$refs.statusDialog.hide()
         })
     },
 

@@ -69,12 +69,19 @@
         <q-item-section>
           <q-item-label class="text-weight-bold text-uppercase">
             Delivery Fee:
+            <span caption>{{ distance + 'KM' }}</span>
+          </q-item-label>
+          <q-item-label lines="2">
+            <span class="text-caption text-weight-light text-uppercase">Addt'l PHP 4.00 every kilometer</span>
           </q-item-label>
         </q-item-section>
 
-        <q-item-section side>
+        <q-item-section
+          side
+          top
+        >
           <q-item-label class="text-grey-8 text-uppercase">
-            {{ 'Php ' + parseFloat(deliveryFee).toFixed(2) }}
+            {{ 'Php ' + calculateDeliveryFee() }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -159,12 +166,22 @@ export default {
 
   mounted () {
     this.fillCart()
+
+    this.$store.dispatch('userStoresModule/getStoreDistance')
+      .then(response => {
+        this.distance = response.data[0].distance
+      })
+      .catch(error => {
+        console.log(error)
+      })
   },
 
   data () {
     return {
       content: [],
       deliveryFee: 35,
+      distance: 0,
+      totalDeliveryFee: 0,
       subTotal: 0,
       total: 0,
       instructions: '',
@@ -181,6 +198,12 @@ export default {
 
     qtyTotal (price, qty) {
       return (parseFloat(price) * parseInt(qty)).toFixed(2)
+    },
+
+    calculateDeliveryFee () {
+      const totalDeliveryFee = (this.distance > 1.99) ? (parseFloat(this.deliveryFee) + ((this.distance - 1) * 4)).toFixed(2) : parseFloat(this.deliveryFee).toFixed(2)
+      this.totalDeliveryFee = totalDeliveryFee
+      return totalDeliveryFee
     },
 
     getSubTotal () {
@@ -202,6 +225,8 @@ export default {
         instruction: this.instructions,
         location: this.location,
         subTotal: this.subTotal,
+        distance: this.distance,
+        deliveryFee: this.totalDeliveryFee,
         total: this.total,
         paymentMode: this.paymentMode
       })

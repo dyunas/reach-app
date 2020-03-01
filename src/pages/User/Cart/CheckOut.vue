@@ -47,7 +47,7 @@
           <q-btn
             flat
             label="VIEW ORDER"
-            :to="{ path: 'user/orders/' + orderId }"
+            :to="{ path: '/user/orders/' + orderId }"
           />
         </q-card-actions>
       </q-card>
@@ -106,13 +106,24 @@ export default {
 
       this.$store.dispatch('userStoresModule/placeOrder', payload)
         .then(response => {
-          setTimeout(() => {
+          if (response.ok === true) {
+            setTimeout(() => {
+              this.$refs.placingOrder.hide()
+              this.dialogHeader = response.header
+              this.dialogMessage = response.message
+              this.orderId = response.order_id
+              this.doneProcessing = true
+            }, 2000, response);
+          } else {
             this.$refs.placingOrder.hide()
-            this.dialogHeader = response.header
-            this.dialogMessage = response.message
-            this.orderId = response.order_id
-            this.doneProcessing = true
-          }, 2000, response);
+            const dialog = this.$q.dialog({
+              title: response.header,
+              message: response.message
+            }).onOk(() => {
+              dialog.hide()
+            })
+            this.processing = false
+          }
         })
         .catch(error => {
           this.$refs.placingOrder.hide()

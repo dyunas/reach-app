@@ -26,7 +26,7 @@
               {{ store.distance + 'KM' }}
             </div>
           </div>
-          <div class="text-caption text-grey">
+          <div class="text-caption text-grey ellipsis">
             {{ store.location }}
           </div>
         </q-card-section>
@@ -76,4 +76,5 @@ export default {
 <style lang="sass" scoped>
 .my-card
   min-width: 320px
+  max-width: 320px
 </style>
