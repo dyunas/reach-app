@@ -201,7 +201,7 @@ export default {
     },
 
     calculateDeliveryFee () {
-      const totalDeliveryFee = (this.distance > 1.99) ? (parseFloat(this.deliveryFee) + ((this.distance - 1) * 4)).toFixed(2) : parseFloat(this.deliveryFee).toFixed(2)
+      const totalDeliveryFee = (this.distance > 1.99) ? (parseFloat(this.deliveryFee) + ((parseInt(this.distance) - 1) * 4)).toFixed(2) : parseFloat(this.deliveryFee).toFixed(2)
       this.totalDeliveryFee = totalDeliveryFee
       return totalDeliveryFee
     },
@@ -215,7 +215,7 @@ export default {
     },
 
     getGrandTotal () {
-      this.total = (parseFloat(this.subTotal) + parseFloat(this.deliveryFee)).toFixed(2)
+      this.total = (parseFloat(this.subTotal) + parseFloat(this.totalDeliveryFee)).toFixed(2)
       return this.total
     },
 

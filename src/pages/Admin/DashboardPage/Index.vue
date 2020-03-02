@@ -27,7 +27,11 @@
 
     <br />
 
-    <revenue-report :month="month"></revenue-report>
+    <revenue-report
+      :month="month"
+      :annualRevenue="annualRevenue"
+      :monthlyRevenue="monthlyRevenue"
+    ></revenue-report>
   </q-page>
 </template>
 
@@ -59,8 +63,8 @@ export default {
     this.$store.dispatch('adminMerchantModule/getMerchantListCount')
     this.$store.dispatch('adminTransactionModule/getAnnualTransactionsCount')
     this.$store.dispatch('adminTransactionModule/getMonthlyTransactionsCount')
-    // this.$store.dispatch('adminRevenueModule/getAnnualRevenue')
-    // this.$store.dispatch('adminRevenueModule/getMonthlyRevenue')
+    this.$store.dispatch('adminRevenueModule/getTotalAnnualRevenue')
+    this.$store.dispatch('adminRevenueModule/getMonthlyRevenue')
   },
 
   computed: {
@@ -82,6 +86,14 @@ export default {
 
     monthlyTransaction () {
       return this.$store.getters['adminTransactionModule/getMonthlyTransactionCount']
+    },
+
+    annualRevenue () {
+      return this.$store.getters['adminRevenueModule/getTotalAnnualRevenue']
+    },
+
+    monthlyRevenue () {
+      return this.$store.getters['adminRevenueModule/getTotalMonthlyRevenue']
     }
   }
 }

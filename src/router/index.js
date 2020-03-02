@@ -34,15 +34,17 @@ export default function ({ store }) {
       }
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
       if (store.getters['loginModule/authState']) {
-        const userLevel = store.getters['loginModule/userLevel']
+        var userLevel = store.getters['loginModule/getUserType']
         if (userLevel === 'admin') {
           next('/admin/dashboard')
         } else if (userLevel === 'merchant') {
           next('/merchant/dashboard')
         } else if (userLevel === 'dasher') {
           next('/dasher/dashboard')
-        } else {
+        } else if (userLevel === 'customer') {
           next('/user/dashboard')
+        } else {
+          next()
         }
       } else {
         next()

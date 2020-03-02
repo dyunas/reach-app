@@ -10,7 +10,7 @@
     "__internal": {
       "dev": {
         "spa": {
-          "iconHash": "e340c46af62ff739172d834881014f19"
+          "iconHash": "0527ce72e6de3ed1e64e557b460ba3ee"
         }
       },
       "build": {
@@ -19,6 +19,9 @@
           "splashscreenHash": "6ba5b9a46b65e8f0ca16ba15a720de83",
           "splashscreenType": "pure",
           "backgroundColor": "#E5E057"
+        },
+        "spa": {
+          "iconHash": "0527ce72e6de3ed1e64e557b460ba3ee"
         }
       }
     }

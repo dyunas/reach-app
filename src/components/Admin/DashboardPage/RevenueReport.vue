@@ -14,7 +14,7 @@
 
       <q-card-section class="text-right">
         <span class="text-h4 text-weight-thin">
-          PHP 45,570,000.00
+          PHP {{ this.annualRevenue }}
         </span>
         <!-- <q-inner-loading :showing="visible">
             <q-spinner-bars
@@ -39,7 +39,7 @@
 
       <q-card-section class="text-right">
         <span class="text-h4 text-weight-thin">
-          PHP 3,797,500.00
+          PHP {{ this.monthlyRevenue }}
         </span>
         <!-- <q-inner-loading :showing="visible">
             <q-spinner-bars
@@ -49,7 +49,7 @@
           </q-inner-loading> -->
       </q-card-section>
     </q-card>
-  </div class="items-start q-gutter-md row">
+  </div>
 </template>
 
 <script>
@@ -57,6 +57,16 @@ export default {
   props: {
     month: {
       type: Array,
+      required: true
+    },
+
+    annualRevenue: {
+      type: Number,
+      required: true
+    },
+
+    monthlyRevenue: {
+      type: Number,
       required: true
     }
   },

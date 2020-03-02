@@ -4,7 +4,7 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://18.162.151.188/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
 export const getStoreCategories = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
@@ -74,30 +74,31 @@ export const addToCart = (context, payload) => {
 }
 
 export const updateCart = (context, payload) => {
-  let cart = JSON.parse(LocalStorage.getItem('cart'))
+  var cart = (LocalStorage.has('cart') ? JSON.parse(LocalStorage.getItem('cart')) : [])
   cart = []
   cart = payload.cart
 
-  let parsed = JSON.stringify(cart)
-  let cartCount = cart.length
+  var parsed = JSON.stringify(cart)
+  var cartCount = cart.length
 
   LocalStorage.set('cart', parsed)
   LocalStorage.set('cartCount', cartCount)
 
-  context.commit('setCart', parsed)
+  context.commit('setCart', cart)
   context.commit('setCartCount', cartCount)
 }
 
 export const removeItemFromCart = (context, payload) => {
-  const cart = JSON.parse(LocalStorage.getItem('cart'))
+  var cart = JSON.parse(LocalStorage.getItem('cart'))
   cart.splice(payload.index, 1)
 
-  let parsed = JSON.stringify(cart)
-  let cartCount = cart.length
+  var parsed = JSON.stringify(cart)
+  var cartCount = cart.length
 
   if (cartCount === 0) {
     const merchantID = ''
     LocalStorage.set('merchantID', merchantID)
+    context.commit('setMerchantID', merchantID)
   }
 
   LocalStorage.set('cart', parsed)
@@ -105,7 +106,6 @@ export const removeItemFromCart = (context, payload) => {
 
   context.commit('setCart', cart)
   context.commit('setCartCount', cartCount)
-  context.commit('setMerchantID', merchantID)
 }
 
 export const getMerchantLatLong = () => {

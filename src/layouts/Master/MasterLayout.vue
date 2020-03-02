@@ -359,7 +359,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  destroyed () {
     this.audio.file.pause()
     this.audio.isPlaying = false
     this.audio.file.currentTime = 0

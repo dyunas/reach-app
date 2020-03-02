@@ -3,7 +3,7 @@ import axios from 'axios'
 /* import LocalStorage plugin for storing data in browser localstorage */
 import { LocalStorage } from 'quasar'
 
-axios.defaults.baseURL = 'http://18.162.151.188/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
 export const login = (context, payload) => {
   return new Promise((resolve, reject) => {
@@ -55,6 +55,7 @@ export const logout = (context) => {
           LocalStorage.remove('lat')
           LocalStorage.remove('long')
           LocalStorage.remove('merchantID')
+          LocalStorage.remove('ownerID')
           context.commit('destroyToken')
           resolve(response.result)
         })
@@ -67,6 +68,7 @@ export const logout = (context) => {
           LocalStorage.remove('lat')
           LocalStorage.remove('long')
           LocalStorage.remove('merchantID')
+          LocalStorage.remove('ownerID')
           context.commit('destroyToken')
           reject(error)
         })

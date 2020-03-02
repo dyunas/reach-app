@@ -62,7 +62,7 @@ export default {
     clearInterval(this.intervalID)
     this.audio.isPlaying = false
     this.audio.file.pause()
-    this.audio.file.loop = false
+    this.audio.file.currentTime = 0
   },
 
   created () {
@@ -75,14 +75,9 @@ export default {
         this.orderUp(notify)
         this.audio.isPlaying = true
         this.audio.file.play()
-        this.audio.file.loop = true
+        this.audio.file.currentTime = 0
         clearInterval(this.intervalID)
       })
-  },
-
-  beforeDestroy () {
-    this.audio.file.pause()
-    this.audio.file.currentTime = 0
   },
 
   methods: {

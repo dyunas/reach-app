@@ -3,7 +3,7 @@ export const getOrderCount = state => {
 }
 
 export const getCartContents = state => {
-  return JSON.parse(state.cart)
+  return state.cart
 }
 
 export const isThereMerchant = state => {

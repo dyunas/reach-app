@@ -8,15 +8,27 @@
       </div>
       <br />
 
-      <h6 class="text-body1 pageHeader text-weight-bold">Customer Info:</h6>
+      <h6
+        class="text-body1 pageHeader text-weight-bold"
+        v-if="this.details[0].status !== 'Delivered'"
+      >Customer Info:</h6>
       <div class="row">
-        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div
+          class="col col-lg-12 col-md-12 col-sm-12 col-xs-12"
+          v-if="this.details[0].status !== 'Delivered'"
+        >
           <div class="text-body2">Customer Name: {{ this.details[0].customer.fname +' '+ this.details[0].customer.lname }}</div>
         </div>
-        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div
+          class="col col-lg-12 col-md-12 col-sm-12 col-xs-12"
+          v-if="this.details[0].status !== 'Delivered'"
+        >
           <div class="text-body2">Contact Number: {{ '+63' + this.details[0].customer.contact_number  }}</div>
         </div>
-        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div
+          class="col col-lg-12 col-md-12 col-sm-12 col-xs-12"
+          v-if="this.details[0].status !== 'Delivered'"
+        >
           <div class="text-body2">Location: {{ this.details[0].location  }}</div>
         </div>
         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">

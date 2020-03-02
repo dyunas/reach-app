@@ -10,7 +10,7 @@
       <q-card
         flat
         bordered
-        class="my-card col-auto"
+        class="my-card col"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Daily Revenue</div>
@@ -33,7 +33,7 @@
       <q-card
         flat
         bordered
-        class="my-card col-auto"
+        class="my-card col"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Weekly Revenue</div>
@@ -56,7 +56,7 @@
       <q-card
         flat
         bordered
-        class="my-card col-auto"
+        class="my-card col"
       >
         <q-card-section>
           <div class="text-h6 text-weight-regular">Monthly Revenue</div>

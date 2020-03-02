@@ -1,7 +1,5 @@
 import { LocalStorage } from "quasar"
 
-const userLevel = (LocalStorage.has('type')) ? LocalStorage.getItem('type') : null
-
 const routes = [
   {
     path: "/",
@@ -22,14 +20,12 @@ const routes = [
       { path: "users/customer", component: () => import("pages/Admin/Users/Customer/Index.vue") },
       { path: "users/merchant", component: () => import("pages/Admin/Users/Merchant/Index.vue") },
       { path: "users/dasher", component: () => import("pages/Admin/Users/Dasher/Index.vue") },
+
+      { path: "reports/transaction", component: () => import("pages/Admin/Reports/Transaction/Index.vue") },
     ],
-    beforeEnter: (to, from, next) => {
-      if (userLevel !== null) {
-        if (userLevel !== 'admin') {
-          next(false)
-        } else {
-          next()
-        }
+    beforeEnter (to, from, next) {
+      if (LocalStorage.getItem('type') !== 'admin') {
+        next(false)
       } else {
         next()
       }
@@ -52,13 +48,9 @@ const routes = [
 
       { path: "settings", component: () => import("pages/Merchant/SettingsPage/Index.vue") }
     ],
-    beforeEnter: (to, from, next) => {
-      if (userLevel !== null) {
-        if (userLevel !== 'merchant') {
-          next(false)
-        } else {
-          next()
-        }
+    beforeEnter (to, from, next) {
+      if (LocalStorage.getItem('type') !== 'merchant') {
+        next(false)
       } else {
         next()
       }
@@ -76,13 +68,9 @@ const routes = [
       { path: "deliveries", component: () => import("pages/Dasher/Deliveries/Index.vue") },
       { path: "deliveries/:id", component: () => import("pages/Dasher/Deliveries/View.vue") }
     ],
-    beforeEnter: (to, from, next) => {
-      if (userLevel !== null) {
-        if (userLevel !== 'dasher') {
-          next(false)
-        } else {
-          next()
-        }
+    beforeEnter (to, from, next) {
+      if (LocalStorage.getItem('type') !== 'dasher') {
+        next(false)
       } else {
         next()
       }
@@ -105,13 +93,9 @@ const routes = [
       { path: "orders", component: () => import("pages/User/MyOrders/Index.vue") },
       { path: "orders/:id", component: () => import("pages/User/MyOrders/View.vue") },
     ],
-    beforeEnter: (to, from, next) => {
-      if (userLevel !== null) {
-        if (userLevel !== 'customer') {
-          next(false)
-        } else {
-          next()
-        }
+    beforeEnter (to, from, next) {
+      if (LocalStorage.getItem('type') !== 'customer') {
+        next(false)
       } else {
         next()
       }

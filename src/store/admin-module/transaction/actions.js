@@ -4,9 +4,9 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://18.162.151.188/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
-export const getAnnualTransactionsCount = context => {
+export const getAnnualTransactionsCount = async context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
     axios.get('/admin/transactions/getAnnualTransactionsCount')
@@ -21,7 +21,7 @@ export const getAnnualTransactionsCount = context => {
   })
 }
 
-export const getMonthlyTransactionsCount = context => {
+export const getMonthlyTransactionsCount = async context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
     axios.get('/admin/transactions/getMonthlyTransactionsCount')
@@ -30,7 +30,19 @@ export const getMonthlyTransactionsCount = context => {
         resolve(response)
       })
       .catch(error => {
-        console.log(error)
+        reject(error)
+      })
+  })
+}
+
+export const getDateRangeTransactions = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/admin/transactions/getDateRangeTransactions?start=' + payload.startDate + "&end=" + payload.endDate)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
         reject(error)
       })
   })
