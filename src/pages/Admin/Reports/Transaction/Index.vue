@@ -1,9 +1,9 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-sm">
     <h4 class="pageHeader">Transactions Report</h4>
 
     <div class="row">
-      <q-card class="my-card q-pa-md col">
+      <q-card class="my-card q-pa-sm col">
         <div class="text-subtitle2 text-uppercase">Generate Report:</div>
 
         <br />
@@ -114,6 +114,7 @@
           :rows-per-page-options="[0]"
           :pagination.sync="pagination"
           hide-bottom
+          style="font-size:10px"
         >
         </q-table>
         <br />
@@ -128,9 +129,6 @@ export default {
     return {
       startDate: '',
       endDate: '',
-      filterBy: '',
-      filterByOptions: '',
-      filterWithOptions: '',
       submitting: false,
       generatedReport: false,
       pagination: {
@@ -141,11 +139,11 @@ export default {
         { name: 'order_id', label: 'ORDER ID', align: 'left', field: 'order_id', sortable: true },
         { name: 'merchant', label: 'MERCHANT', align: 'left', field: 'merchant', sortable: true },
         { name: 'dasher', label: 'DASHER', align: 'left', field: 'dasher', sortable: true },
-        { name: 'status', label: 'STATUS', align: 'center', field: 'status', sortable: true },
-        { name: 'paymentMode', label: 'M.O.P', align: 'center', field: 'paymentMode', sortable: true },
+        { name: 'status', label: 'STATUS', align: 'left', field: 'status', sortable: true },
+        { name: 'paymentMode', label: 'M.O.P', align: 'left', field: 'paymentMode', sortable: true },
         { name: 'subTotal', label: 'SUBTOTAL', align: 'right', field: 'subTotal', sortable: true },
         { name: 'distance', label: 'DISTANCE', align: 'right', field: 'distance', sortable: true },
-        { name: 'delivery_fee', label: 'DELIVERY FEE', align: 'right', field: 'delivery_fee', sortable: true },
+        { name: 'delivery_fee', label: 'DEL. FEE', align: 'right', field: 'delivery_fee', sortable: true },
         { name: 'total', label: 'TOTAL', align: 'right', field: 'total', sortable: true },
         { name: 'created_at', label: 'ORDER DATE', align: 'left', field: 'created_at', sortable: true }
       ],
@@ -170,10 +168,10 @@ export default {
               dasher: item.fname + ' ' + item.lname,
               status: item.status,
               paymentMode: item.paymentMode,
-              subTotal: parseFloat(item.subTotal),
+              subTotal: (parseFloat(item.subTotal)).toFixed(2),
               distance: item.distance + 'KM',
-              delivery_fee: parseFloat(item.delivery_fee),
-              total: parseFloat(item.total),
+              delivery_fee: (parseFloat(item.delivery_fee)).toFixed(2),
+              total: parseFloat(item.total).toFixed(2),
               created_at: item.created_date,
             })
           })

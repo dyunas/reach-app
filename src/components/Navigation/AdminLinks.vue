@@ -123,23 +123,6 @@
       class="q-router"
       v-ripple
       exact
-      :to="{ path: '/admin/feedback'}"
-    >
-      <q-item-section avatar>
-        <q-icon name="feedback" />
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>
-          Feedback
-        </q-item-label>
-      </q-item-section>
-    </q-item>
-
-    <q-item
-      clickable
-      class="q-router"
-      v-ripple
-      exact
       :to="{ path: '/admin/settings'}"
     >
       <q-item-section avatar>

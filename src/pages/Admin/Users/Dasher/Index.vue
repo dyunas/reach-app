@@ -2,7 +2,7 @@
   <q-page padding>
     <h4 class="pageHeader">Dasher</h4>
 
-    <div class="q-pa-md">
+    <div>
       <q-table
         :data="data"
         :columns="columns"
@@ -13,6 +13,14 @@
         @request="getDasherList"
         binary-state-sort
       >
+        <template v-slot:top-left>
+          <q-btn
+            label="Register dasher"
+            :to="{ path: '/admin/users/dasher/register'}"
+            color="primary"
+            icon="add_box"
+          />
+        </template>
         <template v-slot:top-right>
           <q-input
             borderless
@@ -28,17 +36,12 @@
         </template>
         <template v-slot:body-cell-action="cellProperties">
           <q-td :props="cellProperties">
-            <router-link
-              class="q-mr-sm"
+            <q-btn
+              flat
+              color="primary"
+              icon="search"
               :to="{ path: '/admin/users/dasher/view/' + cellProperties.value }"
-            >
-              <q-btn
-                flat
-                color="primary"
-                icon="search"
-              >
-              </q-btn>
-            </router-link>
+            />
           </q-td>
         </template>
       </q-table>

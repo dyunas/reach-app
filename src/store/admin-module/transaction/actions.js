@@ -4,9 +4,9 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.163.185.208/api'
 
-export const getAnnualTransactionsCount = async context => {
+export const getAnnualTransactionsCount = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
     axios.get('/admin/transactions/getAnnualTransactionsCount')
@@ -21,7 +21,7 @@ export const getAnnualTransactionsCount = async context => {
   })
 }
 
-export const getMonthlyTransactionsCount = async context => {
+export const getMonthlyTransactionsCount = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
     axios.get('/admin/transactions/getMonthlyTransactionsCount')

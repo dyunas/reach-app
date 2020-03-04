@@ -2,7 +2,7 @@
   <q-page padding>
     <h4 class="pageHeader">Customer</h4>
 
-    <div class="q-pa-md">
+    <div>
       <q-table
         :data="data"
         :columns="columns"
@@ -28,17 +28,12 @@
         </template>
         <template v-slot:body-cell-action="cellProperties">
           <q-td :props="cellProperties">
-            <router-link
-              class="q-mr-sm"
+            <q-btn
+              flat
+              color="primary"
+              icon="search"
               :to="{ path: '/admin/users/customer/view/' + cellProperties.value }"
-            >
-              <q-btn
-                flat
-                color="primary"
-                icon="search"
-              >
-              </q-btn>
-            </router-link>
+            />
           </q-td>
         </template>
       </q-table>
@@ -120,6 +115,9 @@ export default {
 
           // ...and turn of loading indicator
           this.loading = false
+        })
+        .catch(error => {
+          console.log(error)
         })
     },
 

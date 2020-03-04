@@ -58,15 +58,14 @@ export default {
     }
   },
 
+  created () {
+    this.checkPendingDelivery()
+  },
+
   beforeDestroy () {
-    clearInterval(this.intervalID)
     this.audio.isPlaying = false
     this.audio.file.pause()
     this.audio.file.currentTime = 0
-  },
-
-  created () {
-    this.checkPendingDelivery()
   },
 
   mounted () {
@@ -75,7 +74,6 @@ export default {
         this.orderUp(notify)
         this.audio.isPlaying = true
         this.audio.file.play()
-        this.audio.file.currentTime = 0
         clearInterval(this.intervalID)
       })
   },

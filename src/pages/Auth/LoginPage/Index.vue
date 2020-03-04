@@ -29,7 +29,7 @@
               inline-actions
               class="text-white bg-red"
             >
-              {{ serverError }}
+              {{ serverError.message }}
             </q-banner>
           </q-card-section>
           <q-card-section>
@@ -41,6 +41,7 @@
               <q-input
                 dense
                 v-model="email"
+                type="email"
                 label="E-mail"
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type your e-mail']"
@@ -91,6 +92,17 @@
                 />
               </div>
             </q-form>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-section>
+            <router-link
+              :to="{ path: '/register' }"
+              class="text-caption text-weight-light"
+            >
+              Don't have an account yet? Click here to register
+            </router-link>
           </q-card-section>
         </q-card>
       </div>

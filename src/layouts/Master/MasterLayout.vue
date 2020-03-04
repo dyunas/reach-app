@@ -64,7 +64,7 @@
                     v-for="(update, index) in userOrderUpdates"
                     v-bind:key="index"
                     clickable
-                    :to="{ path: '/user/my_orders/' + update.notify.path }"
+                    :to="{ path: '/user/orders/' + update.notify.path }"
                     @click="removeItemFromUserNotification(index)"
                   >
                     <q-item-section>
@@ -326,13 +326,14 @@ export default {
       dasherLinks: [
         { icon: 'dashboard', text: 'Dashboard', path: '/dasher/dashboard' },
         { icon: 'motorcycle', text: 'Deliveries', path: '/dasher/deliveries' },
+        { icon: 'comment', text: 'Comment and Ratings', path: '/dasher/comments' },
         { icon: 'settings', text: 'Account Settings', path: '/dasher/settings' }
       ],
       buttons2: [
         { text: 'Terms & Conditions' }
       ],
       audio: {
-        file: new Audio('statics/audios/loud_alarm.mp3'),
+        file: new Audio('statics/audios/doorbell-sound.mp3'),
         isPlaying: false
       },
       intervalID: '',
@@ -359,9 +360,9 @@ export default {
     }
   },
 
-  destroyed () {
-    this.audio.file.pause()
+  beforeDestroy () {
     this.audio.isPlaying = false
+    this.audio.file.pause()
     this.audio.file.currentTime = 0
   },
 

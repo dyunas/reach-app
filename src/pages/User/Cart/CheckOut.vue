@@ -102,33 +102,42 @@ export default {
     },
 
     placeOrder (payload) {
-      this.processing = true
+      const confirm = this.$q.dialog({
+        title: 'Are you sure?',
+        message: 'You cannot cancel your order once you checked out. Confirm?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.processing = true
 
-      this.$store.dispatch('userStoresModule/placeOrder', payload)
-        .then(response => {
-          if (response.ok === true) {
-            setTimeout(() => {
+        this.$store.dispatch('userStoresModule/placeOrder', payload)
+          .then(response => {
+            if (response.ok === true) {
+              setTimeout(() => {
+                this.$refs.placingOrder.hide()
+                this.dialogHeader = response.header
+                this.dialogMessage = response.message
+                this.orderId = response.order_id
+                this.doneProcessing = true
+              }, 2000, response);
+            } else {
               this.$refs.placingOrder.hide()
-              this.dialogHeader = response.header
-              this.dialogMessage = response.message
-              this.orderId = response.order_id
-              this.doneProcessing = true
-            }, 2000, response);
-          } else {
+              const dialog = this.$q.dialog({
+                title: response.header,
+                message: response.message
+              }).onOk(() => {
+                dialog.hide()
+              })
+              this.processing = false
+            }
+          })
+          .catch(error => {
             this.$refs.placingOrder.hide()
-            const dialog = this.$q.dialog({
-              title: response.header,
-              message: response.message
-            }).onOk(() => {
-              dialog.hide()
-            })
             this.processing = false
-          }
-        })
-        .catch(error => {
-          this.$refs.placingOrder.hide()
-          this.processing = false
-        })
+          })
+      }).onCancel(() => {
+        // console.log('Cancel')
+      })
     }
   }
 }

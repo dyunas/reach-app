@@ -15,10 +15,12 @@ import merchantOrdersModule from './merchant-module/orders'
 import merchantSettingsModule from './merchant-module/settings'
 
 import dasherDeliveryModule from './dasher-module/deliveries'
+import dasherCommentsModule from './dasher-module/comments'
 
 import userDashboardModule from './user-module/dashboard'
 import userStoresModule from './user-module/stores'
 import userOrdersModule from './user-module/orders'
+import userRegisterModule from './user-module/register'
 
 Vue.use(Vuex);
 
@@ -47,11 +49,13 @@ export default function (/* { ssrContext } */) {
 
       // dasher
       dasherDeliveryModule,
+      dasherCommentsModule,
 
       // user
       userDashboardModule,
       userStoresModule,
-      userOrdersModule
+      userOrdersModule,
+      userRegisterModule,
     },
 
     // enable strict mode (adds overhead!)
@@ -79,10 +83,12 @@ export default function (/* { ssrContext } */) {
         const newMerchantSettingsModule = require('./merchant-module/settings').default
 
         const newDasherDeliveryModule = require('./dasher-module/deliveries').default
+        const newDasherCommentsModule = require('./dasher-module/comments').default
 
         const newUserDashboardModule = require('./user-module/dashboard').default
         const newUserStoresModule = require('./user-module/stores').default
         const newUserOrdersModule = require('./user-module/orders').default
+        const newUserRegisterModule = require('./user-module/register').default
 
         Store.hotUpdate({
           modules: {
@@ -100,10 +106,12 @@ export default function (/* { ssrContext } */) {
             merchantSettingsModule: newMerchantSettingsModule,
 
             dasherDeliveryModule: newDasherDeliveryModule,
+            dasherCommentsModule: newDasherCommentsModule,
 
             userDashboardModule: newUserDashboardModule,
             userStoresModule: newUserStoresModule,
             userOrdersModule: newUserOrdersModule,
+            userRegisterModule: newUserRegisterModule,
           }
         })
       })

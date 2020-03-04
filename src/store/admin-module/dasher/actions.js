@@ -4,7 +4,7 @@ import { LocalStorage } from 'quasar'
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = 'http://18.163.185.208/api'
 
 export const getDasherList = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
@@ -26,6 +26,32 @@ export const getDasherListCount = context => {
       .then(response => {
         context.commit('setDasherCount', response.data)
         resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const getDasherDetails = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/admin/dasher/' + payload.dasher_id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const getDasherRating = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/admin/getDasherRating?id=' + payload.dasher_id)
+      .then(response => {
+        resolve(response)
       })
       .catch(error => {
         reject(error)

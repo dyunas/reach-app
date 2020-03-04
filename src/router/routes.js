@@ -10,6 +10,18 @@ const routes = [
     meta: { requiresVisitor: true }
   },
 
+  // Register links
+  {
+    path: "/register",
+    component: () => import("layouts/Login/LoginLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/Auth/RegisterPage/Index.vue") },
+      { path: "success", component: () => import("pages/Auth/RegisterPage/Success.vue") },
+      { path: "/validation/:id/:token", component: () => import("pages/Auth/RegisterPage/VerifyRegistration.vue") }
+    ],
+    meta: { requiresVisitor: true }
+  },
+
   // Admin links
   {
     path: "/admin/",
@@ -18,10 +30,18 @@ const routes = [
       { path: "dashboard", component: () => import("pages/Admin/DashboardPage/Index.vue") },
 
       { path: "users/customer", component: () => import("pages/Admin/Users/Customer/Index.vue") },
+      { path: "users/customer/view/:id", component: () => import("pages/Admin/Users/Customer/View.vue") },
+
       { path: "users/merchant", component: () => import("pages/Admin/Users/Merchant/Index.vue") },
+      { path: "users/merchant/register", component: () => import("pages/Admin/Users/Merchant/Create.vue") },
+      { path: "users/merchant/view/:id", component: () => import("pages/Admin/Users/Merchant/View.vue") },
+
       { path: "users/dasher", component: () => import("pages/Admin/Users/Dasher/Index.vue") },
+      { path: "users/dasher/register", component: () => import("pages/Admin/Users/Dasher/Create.vue") },
+      { path: "users/dasher/view/:id", component: () => import("pages/Admin/Users/Dasher/View.vue") },
 
       { path: "reports/transaction", component: () => import("pages/Admin/Reports/Transaction/Index.vue") },
+      { path: "reports/revenue", component: () => import("pages/Admin/Reports/Revenue/Index.vue") },
     ],
     beforeEnter (to, from, next) {
       if (LocalStorage.getItem('type') !== 'admin') {
@@ -66,7 +86,9 @@ const routes = [
       { path: "dashboard", component: () => import("pages/Dasher/DashboardPage/Index.vue") },
 
       { path: "deliveries", component: () => import("pages/Dasher/Deliveries/Index.vue") },
-      { path: "deliveries/:id", component: () => import("pages/Dasher/Deliveries/View.vue") }
+      { path: "deliveries/:id", component: () => import("pages/Dasher/Deliveries/View.vue") },
+
+      { path: "comments", component: () => import("pages/Dasher/Comments/Index.vue") },
     ],
     beforeEnter (to, from, next) {
       if (LocalStorage.getItem('type') !== 'dasher') {

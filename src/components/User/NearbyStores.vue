@@ -7,7 +7,7 @@
         v-bind:key="store.id"
       >
         <q-img
-          :src="'http://localhost/reach-php/public/storage/' + store.photo"
+          :src="'http://18.163.185.208/storage/' + store.photo"
           :ratio="4/3"
         />
 
