@@ -98,6 +98,15 @@
 
           <q-card-section>
             <router-link
+              :to="{ path: '/forgot-password' }"
+              class="text-caption text-weight-light"
+            >
+              Forgot your password? Click here
+            </router-link>
+
+            <br />
+
+            <router-link
               :to="{ path: '/register' }"
               class="text-caption text-weight-light"
             >

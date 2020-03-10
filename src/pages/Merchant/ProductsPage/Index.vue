@@ -72,7 +72,7 @@
                 <template v-slot:body-cell-avatar="cellProperties">
                   <q-td>
                     <q-img
-                      :src="'http://18.163.185.208/storage/' + cellProperties.value"
+                      :src="'http://localhost/reach-php/public/storage/' + cellProperties.value"
                       alt="Avatar"
                     />
                   </q-td>
@@ -335,7 +335,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>  
+<style lang="sass" scoped>
 .pageHeader
   margin: 15px 0px 5px 15px
 </style>

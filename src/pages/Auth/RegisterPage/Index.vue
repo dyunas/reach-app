@@ -28,7 +28,7 @@
                 label="E-mail"
                 debounce="1000"
                 :loading="searching"
-                :rules="[ val => val && val.length > 0 || 'Please type your e-mail', checkEmail ]"
+                :rules="[ val => val && val.length > 0 || 'Please type your e-mail', isValidEmail, checkEmail ]"
                 autofocus
               >
                 <template v-slot:prepend>
@@ -43,7 +43,9 @@
                 label="Password"
                 lazy-rules
                 :rules="[
-                  val => val !== null && val.length > 0 || 'Please type your password',
+                  val => val !== null || 'Please type your password',
+                  val => val.length >= 8 || 'Password should at least be 8 characters long',
+                  validatePasswordStrength
                 ]"
               >
                 <template v-slot:prepend>
@@ -179,6 +181,30 @@ export default {
     passConfirm (val) {
       return new Promise((resolve, reject) => {
         resolve(this.password === val || 'Password and Confirm password doest not match')
+      })
+    },
+
+    isValidEmail (val) {
+      return new Promise((resolve, reject) => {
+        var regex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
+
+        if (!regex.test(val)) {
+          resolve('Please enter a valid email address')
+        } else {
+          resolve(true)
+        }
+      })
+    },
+
+    validatePasswordStrength (val) {
+      return new Promise((resolve, reject) => {
+        var regex = new RegExp(/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,16}$/)
+
+        if (!regex.test(val)) {
+          resolve('Password must contain at least: 1 Uppercase, 1 Special Character and 1 Number')
+        } else {
+          resolve(true)
+        }
       })
     },
 

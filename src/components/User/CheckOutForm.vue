@@ -107,6 +107,7 @@
           dense
           filled
           type="textarea"
+          placeholder="e.g. No onions (allergy reasons)..."
         />
       </q-card-section>
     </q-card>

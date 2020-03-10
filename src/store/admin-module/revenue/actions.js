@@ -1,7 +1,7 @@
 /* import axios */
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://18.163.185.208/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
 export const getTotalAnnualRevenue = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token

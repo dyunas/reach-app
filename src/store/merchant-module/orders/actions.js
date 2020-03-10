@@ -3,7 +3,7 @@ import axios from 'axios'
 /* import LocalStorage plugin for storing data in browser localstorage */
 import { LocalStorage } from 'quasar'
 
-axios.defaults.baseURL = 'http://18.163.185.208/api'
+axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
 export const getOrderList = context => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token

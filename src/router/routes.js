@@ -22,6 +22,16 @@ const routes = [
     meta: { requiresVisitor: true }
   },
 
+  // Forgot password links
+  {
+    path: "/forgot-password",
+    component: () => import("layouts/Login/LoginLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/Auth/ForgotPassword/Index.vue") },
+    ],
+    meta: { requiresVisitor: true }
+  },
+
   // Admin links
   {
     path: "/admin/",

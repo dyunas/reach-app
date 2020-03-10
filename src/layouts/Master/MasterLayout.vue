@@ -280,12 +280,37 @@
                 :key="button.text"
                 class="GPL__drawer-footer-link"
                 href="javascript:void(0)"
+                @click="termsCondition = true"
               >{{ button.text }}</a>
             </div>
           </div>
         </q-list>
       </q-scroll-area>
     </q-drawer>
+
+    <q-dialog
+      v-model="termsCondition"
+      persistent
+      :maximized="maximizedToggle"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card>
+        <q-bar>
+          <q-space />
+          <q-btn
+            dense
+            flat
+            icon="close"
+            v-close-popup
+          >
+            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <terms-condition></terms-condition>
+      </q-card>
+    </q-dialog>
 
     <q-page-container class="GPL__page-container">
       <router-view />
@@ -297,14 +322,18 @@
 import { QSpinnerBars } from 'quasar'
 import { LocalStorage } from 'quasar'
 import AdminLinks from "components/Navigation/AdminLinks";
+import TermsCondition from "components/Terms/TermsCondition";
 
 export default {
   components: {
-    AdminLinks
+    AdminLinks,
+    TermsCondition
   },
 
   data () {
     return {
+      termsCondition: false,
+      maximizedToggle: true,
       bgStyle: {
         backgroundColor: "#FFFFFF"
       },
@@ -484,7 +513,7 @@ export default {
     &__page-container
       padding-left: 94px
 
-.badge 
+.badge
   padding: 1px 9px 2px
   font-size: 12.025px
   font-weight: bold

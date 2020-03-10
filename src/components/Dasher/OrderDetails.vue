@@ -147,12 +147,19 @@
           <q-item-section>
             <q-item-label class="text-weight-bold text-uppercase">
               Delivery Fee:
+              <span caption>{{ this.order[0].distance + 'KM' }}</span>
+            </q-item-label>
+            <q-item-label lines="2">
+              <span class="text-caption text-weight-light text-uppercase">Addt'l PHP 4.00 every kilometer</span>
             </q-item-label>
           </q-item-section>
 
-          <q-item-section side>
+          <q-item-section
+            side
+            top
+          >
             <q-item-label class="text-grey-8 text-uppercase">
-              Php 35.00
+              {{ 'Php ' + this.order[0].deliveryFee }}
             </q-item-label>
           </q-item-section>
         </q-item>
