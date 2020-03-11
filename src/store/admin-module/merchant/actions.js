@@ -6,6 +6,45 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
 
+export const createNewMerchant = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.post('/admin/merchant', {
+      merchantName: payload.merchantName,
+      email: payload.email,
+      contactNumber: payload.contactNumber,
+      brgyClearance: payload.brgyClearance,
+      busPerm: payload.busPerm,
+      dtiSec: payload.dtiSec,
+      leaseTitle: payload.leaseTitle
+    })
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error.response.data)
+      })
+  })
+}
+
+export const updateAccountStatus = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.post('/admin/update_account_status/' + payload.id, {
+      data: {
+        status: payload.status
+      },
+      _method: 'PATCH'
+    })
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error.response.data)
+      })
+  })
+}
+
 export const getMerchantList = (context, payload) => {
   axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
   return new Promise((resolve, reject) => {
@@ -26,6 +65,19 @@ export const getMerchantListCount = context => {
       .then(response => {
         context.commit('setMerchantCount', response.data)
         resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export const getMerchantDetails = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/admin/merchant/' + payload.merchant_id)
+      .then(response => {
+        resolve(response)
       })
       .catch(error => {
         reject(error)

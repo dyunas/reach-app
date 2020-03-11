@@ -124,6 +124,8 @@ const routes = [
 
       { path: "orders", component: () => import("pages/User/MyOrders/Index.vue") },
       { path: "orders/:id", component: () => import("pages/User/MyOrders/View.vue") },
+
+      { path: "settings", component: () => import("pages/User/Settings/Index.vue") },
     ],
     beforeEnter (to, from, next) {
       if (LocalStorage.getItem('type') !== 'customer') {

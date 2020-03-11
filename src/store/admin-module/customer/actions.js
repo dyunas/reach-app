@@ -32,3 +32,16 @@ export const getCustomerListCount = context => {
       })
   })
 }
+
+export const getCustomerInformation = (context, payload) => {
+  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  return new Promise((resolve, reject) => {
+    axios.get('/admin/customer/' + payload.id)
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}

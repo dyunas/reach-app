@@ -113,6 +113,18 @@
               Don't have an account yet? Click here to register
             </router-link>
           </q-card-section>
+
+          <q-separator />
+
+          <q-card-section>
+
+            <router-link
+              :to="{ path: '/how_to_be' }"
+              class="text-caption text-weight-light"
+            >
+              Do you want to be part of Reach? Click here to know more.
+            </router-link>
+          </q-card-section>
         </q-card>
       </div>
     </div>

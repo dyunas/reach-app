@@ -39,7 +39,6 @@ export const updateProfile = (context, payload) => {
         merchantName: payload.merchantName,
         openingTime: payload.openingTime,
         closingTime: payload.closingTime,
-        email: payload.email,
         contactNumber: payload.contactNumber,
         location: payload.location,
         lat: payload.lat,

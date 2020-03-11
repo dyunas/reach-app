@@ -112,7 +112,7 @@
                 v-model="cnum"
                 label="Contact Number"
                 lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Please type your contact number' ]"
+                :rules="[ val => val && val.length > 0 || 'Please type your contact number', validNumbers ]"
               >
                 <template v-slot:prepend>
                   <q-icon name="phone" />
@@ -181,6 +181,18 @@ export default {
     passConfirm (val) {
       return new Promise((resolve, reject) => {
         resolve(this.password === val || 'Password and Confirm password doest not match')
+      })
+    },
+
+    validNumbers (val) {
+      return new Promise((resolve) => {
+        var regex = new RegExp(/^[0-9\s]*$/)
+
+        if (!regex.test(val)) {
+          resolve('Please input valid numbers')
+        } else {
+          resolve(true)
+        }
       })
     },
 

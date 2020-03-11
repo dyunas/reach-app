@@ -105,7 +105,9 @@ module.exports = function (ctx) {
         'QBar',
         'QTime',
         'QExpansionItem',
-        'QFile'
+        'QFile',
+        'QCheckbox',
+        'QField'
       ],
 
       directives: [

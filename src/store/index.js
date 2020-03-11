@@ -21,6 +21,7 @@ import userDashboardModule from './user-module/dashboard'
 import userStoresModule from './user-module/stores'
 import userOrdersModule from './user-module/orders'
 import userRegisterModule from './user-module/register'
+import userSettingsModule from './user-module/settings'
 
 Vue.use(Vuex);
 
@@ -56,6 +57,7 @@ export default function (/* { ssrContext } */) {
       userStoresModule,
       userOrdersModule,
       userRegisterModule,
+      userSettingsModule
     },
 
     // enable strict mode (adds overhead!)
@@ -89,6 +91,7 @@ export default function (/* { ssrContext } */) {
         const newUserStoresModule = require('./user-module/stores').default
         const newUserOrdersModule = require('./user-module/orders').default
         const newUserRegisterModule = require('./user-module/register').default
+        const newUserSettingsModule = require('./user-module/settings').default
 
         Store.hotUpdate({
           modules: {
@@ -112,6 +115,7 @@ export default function (/* { ssrContext } */) {
             userStoresModule: newUserStoresModule,
             userOrdersModule: newUserOrdersModule,
             userRegisterModule: newUserRegisterModule,
+            userSettingsModule: newUserSettingsModule,
           }
         })
       })
