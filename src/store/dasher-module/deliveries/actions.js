@@ -1,76 +1,95 @@
 /* import LocalStorage plugin for storing data in browser localstorage */
-import { LocalStorage } from 'quasar'
+import { LocalStorage } from "quasar";
 
 /* import axios */
-import axios from 'axios'
+import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = "http://192.168.0.10:8000/api";
 
 export const checkPendingDelivery = context => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/checkPendingDelivery')
+    axios
+      .get("/checkPendingDelivery")
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const getDeliveryList = context => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/deliveries')
+    axios
+      .get("/deliveries")
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const getOrderDetails = (context, payload) => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/deliveries/' + payload.id)
+    axios
+      .get("/deliveries/" + payload.id)
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const getMapDirectionsToMerchant = (context, payload) => {
   return new Promise((resolve, reject) => {
-    axios.get("https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=" + payload.riderLat + "," + payload.riderLong + "&destination=" + payload.merchLat + "," + payload.merchLong + "&key=AIzaSyDjf9uspNjkPTPhhAlNsn-vmsYXMn0oa3E")
+    axios
+      .get(
+        "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/directions/json?origin=" +
+          payload.riderLat +
+          "," +
+          payload.riderLong +
+          "&destination=" +
+          payload.merchLat +
+          "," +
+          payload.merchLong +
+          "&key=AIzaSyDjf9uspNjkPTPhhAlNsn-vmsYXMn0oa3E"
+      )
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const updateOrderStatus = (context, payload) => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.post('/deliveries/' + payload.id, {
-      data: {
-        status: payload.status
-      },
-      _method: 'PATCH'
-    })
+    axios
+      .post("/deliveries/" + payload.id, {
+        data: {
+          status: payload.status
+        },
+        _method: "PATCH"
+      })
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};

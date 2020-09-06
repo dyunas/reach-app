@@ -118,7 +118,7 @@
       </q-item>
     </q-expansion-item>
 
-    <q-item
+    <!-- <q-item
       clickable
       class="q-router"
       v-ripple
@@ -133,7 +133,7 @@
           Settings
         </q-item-label>
       </q-item-section>
-    </q-item>
+    </q-item> -->
   </div>
 </template>
 

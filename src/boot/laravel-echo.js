@@ -1,15 +1,15 @@
-import Echo from 'laravel-echo'
+import Echo from "laravel-echo";
 
-window.Pusher = require('pusher-js')
+window.Pusher = require("pusher-js");
 
 const echo = new Echo({
-  broadcaster: 'pusher',
-  key: '9495d55f813ec982fbbb',
-  cluster: 'ap1',
+  broadcaster: "pusher",
+  key: "f06035394d71e9714092",
+  cluster: "ap1",
   encrypted: false
-})
+});
 
 // "async" is optional
 export default async ({ Vue }) => {
-  Vue.prototype.$echo = echo
-}
+  Vue.prototype.$echo = echo;
+};

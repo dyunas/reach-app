@@ -2,6 +2,27 @@
   <q-page class="q-pa-sm">
     <h4 class="pageHeader">Dasher</h4>
 
+		<div>
+      <q-btn
+        color="primary"
+        label="Activate account"
+        v-if="record.account_status === 'pending' || record.account_status === 'deactivated'"
+        :loading="loading"
+        :disable="disabled"
+        @click="updateAccountStatus"
+      ></q-btn>
+      <q-btn
+        color="red"
+        label="Deactivate account"
+        v-if="record.account_status === 'active'"
+        :loading="loading"
+        :disable="disabled"
+        @click="updateAccountStatus"
+      ></q-btn>
+    </div>
+
+		<br/>
+
     <q-markup-table v-if="fetching">
       <thead>
         <tr>
@@ -127,6 +148,49 @@
         </div>
       </div>
 
+			<br/>
+
+			<div class="row">
+        <div class="col col-md-12 col-lg-12">
+          <q-card class="my-card q-pa-md col">
+            <div class="text-subtitle2 text-weight-bold">Requirements:</div>
+
+            <br />
+
+            <div class="q-gutter-md">
+              <q-checkbox
+                v-model="nbiClearance"
+                label="NBI Clearance"
+                color="yellow"
+                size="xl"
+                disable
+              />
+              <q-checkbox
+                v-model="tin"
+                label="TIN"
+                color="yellow"
+                size="xl"
+                disable
+              />
+              <q-checkbox
+                v-model="driverLicense"
+                label="Driver License"
+                color="yellow"
+                size="xl"
+                disable
+              />
+              <q-checkbox
+                v-model="or_cr"
+                label="OR/CR"
+                color="yellow"
+                size="xl"
+                disable
+              />
+            </div>
+          </q-card>
+        </div>
+      </div>
+
       <br />
 
       <div class="row">
@@ -176,7 +240,13 @@ export default {
       record: '',
       rating: '',
       fetching: false,
-      doneFetching: false
+			doneFetching: false,
+			loading: false,
+      disabled: false,
+      nbiClearance: false,
+      tin: false,
+      driverLicense: false,
+      or_cr: false
     }
   },
 
@@ -193,7 +263,11 @@ export default {
         dasher_id: this.$route.params.id
       })
         .then(response => {
-          this.record = response.data
+					this.record = response.data
+					this.nbiClearance = (response.data.requirements.nbiClearance) ? true : false
+          this.tin = (response.data.requirements.tin) ? true : false
+          this.driverLicense = (response.data.requirements.driverLicense) ? true : false
+          this.or_cr = (response.data.requirements.or_cr) ? true : false
 
           this.fetching = false
           this.doneFetching = true
@@ -212,6 +286,40 @@ export default {
         })
         .catch(error => {
           console.log(error)
+        })
+		},
+		
+		updateAccountStatus () {
+      this.loading = true
+      this.disabled = true
+
+      this.$store.dispatch('adminDasherModule/updateAccountStatus', {
+        id: this.$route.params.id,
+        status: this.record.account_status
+      })
+        .then(response => {
+          this.loading = false
+          this.disabled = false
+
+          this.$q.notify({
+            color: 'green-9',
+            textColor: 'white',
+            icon: 'fas fa-check-circle',
+            message: response.message,
+            position: 'top',
+            timeout: 2000
+          })
+
+          if (this.record.account_status === 'active') {
+            this.record.account_status = 'deactivated'
+          } else {
+            this.record.account_status = 'active'
+          }
+        })
+        .catch(error => {
+          this.loading = false
+          this.disabled = false
+          console.log(error.message)
         })
     }
   }

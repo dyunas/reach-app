@@ -1,47 +1,58 @@
 /* import axios */
-import axios from 'axios'
+import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = "http://192.168.0.10:8000/api";
 
 export const getTotalAnnualRevenue = context => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/admin/revenue/getAnnualRevenue')
+    axios
+      .get("/admin/revenue/getAnnualRevenue")
       .then(response => {
-        const revenue = response.data[0].totalRevenue
-        context.commit('setAnnualRevenue', parseFloat(revenue))
-        resolve(response)
+        const revenue = response.data[0].totalRevenue;
+        context.commit("setAnnualRevenue", parseFloat(revenue));
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const getMonthlyRevenue = context => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/admin/revenue/getMonthlyRevenue')
+    axios
+      .get("/admin/revenue/getMonthlyRevenue")
       .then(response => {
-        const revenue = response.data[0].totalRevenue
-        context.commit('setMonthlyRevenue', parseFloat(revenue))
-        resolve(response)
+        const revenue = response.data[0].totalRevenue;
+        context.commit("setMonthlyRevenue", parseFloat(revenue));
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};
 
 export const getDateRangeRevenue = (context, payload) => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/admin/revenue/getDateRangeRevenue?start=' + payload.startDate + "&end=" + payload.endDate)
+    axios
+      .get(
+        "/admin/revenue/getDateRangeRevenue?start=" +
+          payload.startDate +
+          "&end=" +
+          payload.endDate
+      )
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};

@@ -11,6 +11,12 @@
       "dev": {
         "spa": {
           "iconHash": "0527ce72e6de3ed1e64e557b460ba3ee"
+        },
+        "cordova": {
+          "iconHash": "0527ce72e6de3ed1e64e557b460ba3ee",
+          "splashscreenHash": "6ba5b9a46b65e8f0ca16ba15a720de83",
+          "splashscreenType": "pure",
+          "backgroundColor": "#E5E057"
         }
       },
       "build": {

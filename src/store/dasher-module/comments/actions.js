@@ -1,17 +1,19 @@
 /* import axios */
-import axios from 'axios'
+import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost/reach-php/public/api'
+axios.defaults.baseURL = "http://192.168.0.10:8000/api";
 
 export const getDasherRating = context => {
-  axios.defaults.headers.common['Authorization'] = context.rootState.loginModule.token
+  axios.defaults.headers.common["Authorization"] =
+    context.rootState.loginModule.token;
   return new Promise((resolve, reject) => {
-    axios.get('/ratings')
+    axios
+      .get("/ratings")
       .then(response => {
-        resolve(response)
+        resolve(response);
       })
       .catch(error => {
-        reject(error)
-      })
-  })
-}
+        reject(error);
+      });
+  });
+};

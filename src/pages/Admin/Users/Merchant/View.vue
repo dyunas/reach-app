@@ -5,7 +5,7 @@
     <div>
       <q-btn
         color="primary"
-        label="Active account"
+        label="Activate account"
         v-if="record.account_status === 'pending' || record.account_status === 'deactivated'"
         :loading="loading"
         :disable="disabled"
