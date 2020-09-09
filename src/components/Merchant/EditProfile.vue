@@ -227,21 +227,6 @@
             <q-item-label>
               <q-input
                 outlined
-                v-model="email"
-                label="E-mail"
-                dense
-              />
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-separator />
-
-        <q-item>
-          <q-item-section>
-            <q-item-label>
-              <q-input
-                outlined
                 v-model="contactNumber"
                 label="Contact Number"
                 dense

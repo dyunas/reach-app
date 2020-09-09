@@ -118,12 +118,13 @@
 
           <q-card-section>
 
-            <router-link
-              :to="{ path: '/how_to_be' }"
+            <a
+            	href="http://reach-app.s3-website.ap-east-1.amazonaws.com/"
+							target="_blank"
               class="text-caption text-weight-light"
             >
               Do you want to be part of Reach? Click here to know more.
-            </router-link>
+            </a>
           </q-card-section>
         </q-card>
       </div>

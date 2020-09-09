@@ -39,7 +39,7 @@
 
         <q-card-section class="text-right">
           <span class="text-h4 text-weight-thin">
-            Php 3,456.00
+            Php {{ this.dailyRevenue }}
           </span>
           <!-- <q-inner-loading :showing="visible">
             <q-spinner-bars
@@ -55,37 +55,14 @@
         class="my-card col"
       >
         <q-card-section>
-          <div class="text-h6 text-weight-regular">Weekly Revenue</div>
+          <div class="text-h6 text-weight-regular">Monthly Revenue ({{ this.month.toLocaleString('default', {month: 'long'}) }})</div>
         </q-card-section>
 
         <q-separator />
 
         <q-card-section class="text-right">
           <span class="text-h4 text-weight-thin">
-            Php 3,456.00
-          </span>
-          <!-- <q-inner-loading :showing="visible">
-            <q-spinner-bars
-              size="50px"
-              color="primary"
-            />
-          </q-inner-loading> -->
-        </q-card-section>
-      </q-card>
-      <q-card
-        flat
-        bordered
-        class="my-card col"
-      >
-        <q-card-section>
-          <div class="text-h6 text-weight-regular">Monthly Revenue</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section class="text-right">
-          <span class="text-h4 text-weight-thin">
-            Php 3,456.00
+            Php {{ this.monthlyRevenue }}
           </span>
           <!-- <q-inner-loading :showing="visible">
             <q-spinner-bars
@@ -105,12 +82,25 @@ export default {
     return {
 			store_status: null,
 			loading: false,
-			disabled: false
+			disabled: false,
+			month: new Date()
     }
 	},
 
 	created () {
 		this.getStoreStatus()
+		this.$store.dispatch('merchantDashboardModule/getDailyRevenue')
+    this.$store.dispatch('merchantDashboardModule/getMonthlyRevenue')
+	},
+
+	computed: {
+		dailyRevenue () {
+      return this.$store.getters['merchantDashboardModule/getTotalDailyRevenue']
+    },
+
+    monthlyRevenue () {
+      return this.$store.getters['merchantDashboardModule/getTotalMonthlyRevenue']
+    },
 	},
 
 	methods: {

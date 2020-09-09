@@ -6,7 +6,7 @@
         v-for="product in products"
         v-bind:key="product.id"
       >
-        <q-img :src="'http://localhost/reach-php/public/storage/' + product.avatar" />
+        <q-img :src="'http://18.162.210.50/storage/' + product.avatar" />
 
         <q-card-section>
           <div class="row no-wrap items-center">

@@ -21,7 +21,7 @@
       <q-item>
         <q-item-section>
           <q-img
-            :src="'http://localhost/reach-php/public/storage/' + this.profile.photo"
+            :src="'18.162.210.50/storage/' + this.profile.photo"
             alt="Banner"
             style="width: 100%; height: 370px;"
             :ratio="16/9"
@@ -119,7 +119,7 @@
       <q-item>
         <q-item-section>
           <q-img
-            :src="'http://localhost/reach-php/public/storage/' + this.profile.photo"
+            :src="'http://18.162.210.50/storage/' + this.profile.photo"
             alt="Banner"
             style="width: 100%; height: 370px;"
             :ratio="16/9"

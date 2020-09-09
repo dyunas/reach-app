@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <q-card class="my-card">
-      <q-img :src="'http://localhost/reach-php/public/storage/' + banner">
+      <q-img :src="'http://18.162.210.50/storage/' + banner">
         <div class="absolute-bottom">
           <div class="text-h6 text-center">Jollibee</div>
         </div>
@@ -89,7 +89,7 @@
             v-bind:key="product.id"
           >
             <q-img
-              :src="'http://localhost/reach-php/public/storage/' + product.avatar"
+              :src="'http://18.162.210.50/storage/' + product.avatar"
               :ratio="4/3"
             />
 

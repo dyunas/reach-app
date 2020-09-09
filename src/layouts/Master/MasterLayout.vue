@@ -355,8 +355,7 @@ export default {
       dasherLinks: [
         { icon: 'dashboard', text: 'Dashboard', path: '/dasher/dashboard' },
         { icon: 'motorcycle', text: 'Deliveries', path: '/dasher/deliveries' },
-        { icon: 'comment', text: 'Comment and Ratings', path: '/dasher/comments' },
-        { icon: 'settings', text: 'Account Settings', path: '/dasher/settings' }
+        { icon: 'comment', text: 'Comment and Ratings', path: '/dasher/comments' }
       ],
       buttons2: [
         { text: 'Terms & Conditions' }

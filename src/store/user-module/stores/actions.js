@@ -4,7 +4,7 @@ import { LocalStorage } from "quasar";
 /* import axios */
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.0.10:8000/api";
+axios.defaults.baseURL = "http://18.162.210.50/api";
 
 export const getStoreCategories = (context, payload) => {
   axios.defaults.headers.common["Authorization"] =
@@ -166,7 +166,7 @@ export const getCurrentLocation = () => {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+        "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
           lat +
           "," +
           long +
